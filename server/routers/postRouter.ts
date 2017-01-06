@@ -53,6 +53,8 @@ postRouter.put("/:id", async (req, res) => {
     new: true,
   });
 
+  console.log(updatedPost);
+
   if (updatedPost) {
     res.json(updatedPost);
   } else {
@@ -64,6 +66,22 @@ postRouter.put("/upvote/:id", async (req, res) => {
   const updatedPost = await Post.findByIdAndUpdate(
     req.params.id,
     { $inc: { upvotes: 1 } },
+    {
+      new: true,
+    }
+  );
+
+  if (updatedPost) {
+    res.json(updatedPost);
+  } else {
+    res.status(404).end();
+  }
+});
+
+postRouter.put("/downvote/:id", async (req, res) => {
+  const updatedPost = await Post.findByIdAndUpdate(
+    req.params.id,
+    { $inc: { upvotes: -1 } },
     {
       new: true,
     }

@@ -2,10 +2,6 @@ import mongoose from "mongoose";
 const uniqueValidator = require("mongoose-unique-validator");
 
 const postSchema = new mongoose.Schema({
-  id: {
-    type: Number,
-    unique: true,
-  },
   title: String,
   content: String,
   author: String,

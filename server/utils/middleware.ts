@@ -13,14 +13,13 @@ const unknownEndpoint = (_request, response, next) => {
 };
 
 const errorHandler = (error, _request, response, next) => {
-  // console.error(error.message);
-  console.log("sdlkfnslkdfnsldkfnsldkfnsldfksndlfknsdl");
-
   if (error.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
   } else if (error.name === "ValidationError") {
     return response.status(400).json({ error: error.message });
   } else if (error.name === "UnhandledPromiseRejectionWarning") {
+    return response.status(400).json({ error: error.message });
+  } else if (error.name === "MongoError") {
     return response.status(400).json({ error: error.message });
   }
 

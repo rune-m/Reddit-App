@@ -18,3 +18,27 @@
     color: $text-color;
   }
 }
+
+.downvote-button {
+  background-color: $primary-accent-color;
+  color: black;
+  border-radius: 7px;
+  font-size: 0.9rem;
+  font-weight: normal;
+  padding: 0.3em 0.6em;
+  font-weight: 700;
+  margin-right: 0.2em;
+  margin-bottom: 0.15em;
+}
+
+.upvote-button {
+  background-color: $third-accent-color;
+  color: black;
+  border-radius: 7px;
+  font-size: 0.9rem;
+  font-weight: normal;
+  padding: 0.3em 0.6em;
+  font-weight: 700;
+  margin-right: 0.2em;
+  margin-bottom: 0.15em;
+}

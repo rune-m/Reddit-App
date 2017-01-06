@@ -44,7 +44,6 @@ export const ModalForm = ({
 
         <form
           onSubmit={(e) => {
-            console.log("SUBMIT");
             handleSubmit(e);
             handleClose();
           }}

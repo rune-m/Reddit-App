@@ -1,7 +1,7 @@
 import React from "react";
 import { useInput } from "../hooks/useInput";
 import { usePosts } from "../state/PostContext";
-import { IPost } from "../types/types";
+import { IPostNew } from "../types/types";
 import { ModalForm } from "./ModalForm";
 import { useModalBtn } from "../hooks/useModalBtn";
 
@@ -15,10 +15,7 @@ export const NewPostModal = () => {
   const handleAddPost = (e: React.FormEvent): void => {
     e.preventDefault();
 
-    const id = Math.floor(Math.random() * 100);
-
-    const post: IPost = {
-      id,
+    const post: IPostNew = {
       title: title.value,
       content: content.value,
       author: "Kari",

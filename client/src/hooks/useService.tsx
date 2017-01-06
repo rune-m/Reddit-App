@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { IPost } from "../types/types";
+import { IPost, IPostNew } from "../types/types";
 
 export const useService = (baseUrlProp: string) => {
   const [baseUrl] = useState<string>(baseUrlProp);
@@ -15,7 +15,7 @@ export const useService = (baseUrlProp: string) => {
     return req.data;
   };
 
-  const create = async (post: IPost) => {
+  const create = async (post: IPostNew) => {
     const req = await axios.post(baseUrl, post);
     return req.data;
   };
@@ -25,8 +25,9 @@ export const useService = (baseUrlProp: string) => {
     return req.data;
   };
 
-  const update = async (id: number, post: IPost) => {
-    const req = await axios.put(`${baseUrl}/${id}`, post);
+  const update = async (id: number, post: IPost, actualUrl?: string) => {
+    const url = actualUrl ? actualUrl : baseUrl;
+    const req = await axios.put(`${url}/${id}`, post);
     return req.data;
   };
 
