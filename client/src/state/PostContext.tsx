@@ -1,9 +1,12 @@
 import React, { useContext, useState } from "react";
+import { useService } from "../hooks/useService";
 import { IPost, PostContextState, ContextProps } from "../types/types";
+import { sortByDateDesc } from "../utils/Sort";
 
 const contextDefaultValues: PostContextState = {
   posts: [],
   addPost: () => {},
+  deletePost: () => {},
 };
 
 const PostState = React.createContext<PostContextState>(contextDefaultValues);
@@ -15,12 +18,19 @@ export function usePosts() {
 export const PostContext = ({ children }: ContextProps) => {
   const [posts, setPosts] = useState<IPost[]>(dummyPosts);
 
+  const postService = useService("/api/posts");
+
   const addPost = (post: IPost) => {
-    setPosts(posts.concat(post));
+    const unsortedPosts: IPost[] = posts.concat(post);
+    setPosts(sortByDateDesc(unsortedPosts));
+  };
+
+  const deletePost = (id: number) => {
+    setPosts(posts.filter((el) => el.id !== id));
   };
 
   return (
-    <PostState.Provider value={{ posts, addPost }}>
+    <PostState.Provider value={{ posts, addPost, deletePost }}>
       {children}
     </PostState.Provider>
   );

@@ -3,6 +3,18 @@
   color: white;
   border-radius: 10px;
   font-size: 0.9rem;
-  padding: 0.3em;
+  padding: 0.5em;
   font-weight: 700;
+  margin: 0;
+}
+
+.text-button {
+  background: none;
+  color: $secondary-text-color;
+  border: none;
+  font-size: small;
+  padding: 0;
+  &:hover {
+    color: $text-color;
+  }
 }

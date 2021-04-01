@@ -1,7 +1,9 @@
 $primary-background-color: #090d12;
-$seconday-background-color: rgb(23, 27, 33);
+$secondary-background-color: rgb(23, 27, 33);
 
 $text-color: white;
+$secondary-text-color: rgba(255, 255, 255, 0.699);
+
 $primary-accent-color: #fd4d4c;
 $secondary-accent-color: #f0e1cd;
 
@@ -10,6 +12,7 @@ $color: white;
 
 $theme-colors: (
   "primary": $primary-accent-color,
-  "secondary": $secondary-accent-color,
+  "secondary": $secondary-background-color,
+  "warning": $secondary-accent-color,
   "dark": $primary-background-color,
 );

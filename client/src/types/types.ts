@@ -12,6 +12,7 @@ export interface IPost {
 export interface PostContextState {
   posts: IPost[];
   addPost: (post: IPost) => void;
+  deletePost: (id: number) => void;
 }
 
 export interface ContextProps {

@@ -6,10 +6,10 @@ import { StateProvider } from "./state/StateProvider";
 import "./scss/index.scss";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <StateProvider>
-      <App />
-    </StateProvider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <StateProvider>
+    <App />
+  </StateProvider>,
+  // </React.StrictMode>,
   document.getElementById("root")
 );
