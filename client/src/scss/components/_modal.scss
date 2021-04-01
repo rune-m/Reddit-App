@@ -1,7 +1,9 @@
 .custom-modal {
-  color: red;
-  .modal-body {
-    background-color: red;
+  border: 0;
+  border-radius: 10px;
+  .modal-content {
+    background: none;
+    background-color: $primary-background-color;
   }
 
   .modal-header {
@@ -10,5 +12,28 @@
 
   .modal-footer {
     border-top: 0 none;
+  }
+
+  .btn-primary {
+    color: white;
+  }
+
+  input {
+    background-color: $secondary-background-color;
+    border: none;
+    outline: none;
+    margin-bottom: 0.5em;
+    border-radius: 10px;
+    color: $text-color;
+    padding: 0.5em;
+  }
+  textarea {
+    background-color: $secondary-background-color;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    color: $text-color;
+    padding: 0.5em;
+    resize: none;
   }
 }
