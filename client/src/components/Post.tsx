@@ -24,9 +24,6 @@ export const Post = (post: IPost) => {
           <p className='card-text'>{post.content}</p>
           <button className='main-button btn'>Upvote</button>
           <div className='card-footer'>
-            {/* <button className='text-button' title='Edit post'>
-              Edit
-            </button> */}
             <EditPostModal post={post} />
             &nbsp;
             <button
