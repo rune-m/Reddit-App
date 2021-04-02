@@ -1,6 +1,7 @@
 import React from "react";
 import { usePosts } from "../state/PostContext";
 import { IPost } from "../types/types";
+import { EditPostModal } from "./EditPostModal";
 
 export const Post = (post: IPost) => {
   const { deletePost } = usePosts();
@@ -23,9 +24,10 @@ export const Post = (post: IPost) => {
           <p className='card-text'>{post.content}</p>
           <button className='main-button btn'>Upvote</button>
           <div className='card-footer'>
-            <button className='text-button' title='Edit post'>
+            {/* <button className='text-button' title='Edit post'>
               Edit
-            </button>
+            </button> */}
+            <EditPostModal post={post} />
             &nbsp;
             <button
               className='text-button'

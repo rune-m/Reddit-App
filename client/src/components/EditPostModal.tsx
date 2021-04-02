@@ -4,45 +4,41 @@ import { usePosts } from "../state/PostContext";
 import { Modal } from "react-bootstrap";
 import { IPost } from "../types/types";
 
-export const NewPostModal = () => {
+interface Props {
+  post: IPost;
+}
+
+export const EditPostModal = ({ post }: Props) => {
   // Modal
   const [show, setShow] = useState<boolean>(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   // Input fields
-  const title = useInput("text", "Title...");
-  const content = useInput("text", "Enter post...");
+  const title = useInput("text", "Title...", post.title);
+  const content = useInput("text", "Enter post...", post.content);
 
-  const { addPost } = usePosts();
+  const { updatePost } = usePosts();
 
-  const handleAddPost = (e: React.FormEvent): void => {
+  const handleEditPost = (e: React.FormEvent): void => {
     e.preventDefault();
 
     handleClose();
 
-    const id = Math.floor(Math.random() * 100);
-
-    const post: IPost = {
-      id,
+    const updatedPost: IPost = {
+      ...post,
       title: title.value,
       content: content.value,
-      author: "Kari",
       date: new Date().toISOString(),
-      upvotes: 0,
     };
 
-    addPost(post);
-
-    // Clear fields
-    title.onSubmit();
-    content.onSubmit();
+    updatePost(updatedPost);
   };
 
   return (
     <>
-      <button className='btn main-button' onClick={handleShow}>
-        New Post
+      <button className='text-button' title='Edit post' onClick={handleShow}>
+        Edit
       </button>
 
       <Modal
@@ -52,10 +48,10 @@ export const NewPostModal = () => {
         dialogClassName={"custom-modal"}
       >
         <Modal.Header>
-          <Modal.Title className='text-warning'>Create new post</Modal.Title>
+          <Modal.Title className='text-warning'>Edit post</Modal.Title>
         </Modal.Header>
 
-        <form onSubmit={handleAddPost}>
+        <form onSubmit={handleEditPost}>
           <Modal.Body>
             <div className='row mx-auto'>
               <input {...title} className='col-12' required maxLength={30} />
@@ -76,7 +72,7 @@ export const NewPostModal = () => {
               Cancel
             </button>
             <button type='submit' className='btn btn-primary'>
-              Submit
+              Confirm changes
             </button>
           </Modal.Footer>
         </form>

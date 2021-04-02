@@ -7,6 +7,7 @@ const contextDefaultValues: PostContextState = {
   posts: [],
   addPost: () => {},
   deletePost: () => {},
+  updatePost: () => {},
 };
 
 const PostState = React.createContext<PostContextState>(contextDefaultValues);
@@ -29,8 +30,15 @@ export const PostContext = ({ children }: ContextProps) => {
     setPosts(posts.filter((el) => el.id !== id));
   };
 
+  const updatePost = (post: IPost) => {
+    const unsortedPosts: IPost[] = posts.map((el) =>
+      el.id === post.id ? post : el
+    );
+    setPosts(sortByDateDesc(unsortedPosts));
+  };
+
   return (
-    <PostState.Provider value={{ posts, addPost, deletePost }}>
+    <PostState.Provider value={{ posts, addPost, deletePost, updatePost }}>
       {children}
     </PostState.Provider>
   );
