@@ -44,14 +44,19 @@ export const ModalForm = ({
 
         <form
           onSubmit={(e) => {
+            console.log("SUBMIT");
             handleSubmit(e);
             handleClose();
           }}
         >
-          {modalBody}
+          <Modal.Body>{modalBody}</Modal.Body>
 
           <Modal.Footer>
-            <button className='btn btn-secondary' onClick={handleClose}>
+            <button
+              type='button'
+              className='btn btn-secondary'
+              onClick={handleClose}
+            >
               Cancel
             </button>
             <button type='submit' className='btn btn-primary'>

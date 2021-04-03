@@ -1,7 +1,6 @@
 import React from "react";
 import { useInput } from "../hooks/useInput";
 import { usePosts } from "../state/PostContext";
-import { Modal } from "react-bootstrap";
 import { IPost } from "../types/types";
 import { ModalForm } from "./ModalForm";
 import { useModalBtn } from "../hooks/useModalBtn";
@@ -31,7 +30,7 @@ export const EditPostModal = ({ post }: Props) => {
 
   const modalBody = () => {
     return (
-      <Modal.Body>
+      <>
         <div className='row mx-auto'>
           <input {...title} className='col-12' required maxLength={30} />
         </div>
@@ -44,7 +43,7 @@ export const EditPostModal = ({ post }: Props) => {
             required
           />
         </div>
-      </Modal.Body>
+      </>
     );
   };
 

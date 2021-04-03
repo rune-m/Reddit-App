@@ -50,7 +50,7 @@ let dummyPosts: Array<IPost> = [
     title: "Post 1",
     content: "This is my first post",
     author: "Ola",
-    date: new Date().toISOString(),
+    date: new Date().toUTCString(),
     upvotes: 2,
   },
   {
@@ -58,7 +58,7 @@ let dummyPosts: Array<IPost> = [
     title: "Post 2",
     content: "This is my second post",
     author: "Ola",
-    date: new Date().toISOString(),
+    date: new Date().toUTCString(),
     upvotes: 2,
   },
 ];
