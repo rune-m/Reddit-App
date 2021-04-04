@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useService } from "../hooks/useService";
 import { IPost, PostContextState, ContextProps } from "../types/types";
 import { sortByDateDesc } from "../utils/Sort";
@@ -18,16 +18,44 @@ export function usePosts() {
 
 export const PostContext = ({ children }: ContextProps) => {
   const [posts, setPosts] = useState<IPost[]>(dummyPosts);
+  const [clock, setClock] = useState<number>(0);
 
   const postService = useService("/api/posts");
 
-  const addPost = (post: IPost) => {
-    const unsortedPosts: IPost[] = posts.concat(post);
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const fetchedPosts: IPost[] = await postService.getAll();
+        setPosts(fetchedPosts);
+      } catch (err) {
+        console.log("Error fetching data");
+      }
+    };
+
+    fetch();
+
+    setTimeout(() => {
+      setClock(clock % 2 === 0 ? clock + 1 : clock - 1);
+      console.log("Fetching data");
+    }, 1000 * 10);
+  }, [clock]);
+
+  // TODO Add try-catch for error-handling
+  const addPost = async (post: IPost) => {
+    const savedPost = await postService.create(post);
+
+    const unsortedPosts: IPost[] = posts.concat(savedPost);
     setPosts(sortByDateDesc(unsortedPosts));
   };
 
-  const deletePost = (id: number) => {
-    setPosts(posts.filter((el) => el.id !== id));
+  const deletePost = async (id: number) => {
+    try {
+      await postService.remove(id);
+      setPosts(posts.filter((el) => el.id !== id));
+    } catch (err) {
+      setPosts(posts.filter((el) => el.id !== id));
+      console.log("Removed from server");
+    }
   };
 
   const updatePost = (post: IPost) => {

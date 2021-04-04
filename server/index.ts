@@ -1,4 +1,7 @@
 const app = require("./App");
+import { connectToDB } from "./db/dbConfig";
+
+connectToDB();
 
 const PORT = 3001;
 app.listen(PORT, () => {
