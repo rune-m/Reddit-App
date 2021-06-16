@@ -33,7 +33,7 @@ export const PostContext = ({ children }: ContextProps) => {
     const fetch = async () => {
       try {
         const fetchedPosts: IPost[] = await postService.getAll();
-        setPosts(fetchedPosts);
+        setPosts(sortByDateDesc(fetchedPosts));
       } catch (err) {
         console.log("Error fetching data");
       }
@@ -44,6 +44,7 @@ export const PostContext = ({ children }: ContextProps) => {
     setTimeout(() => {
       setClock(clock % 2 === 0 ? clock + 1 : clock - 1);
       console.log("Fetching data");
+      console.log(posts);
     }, 1000 * 10);
   }, [clock]);
 

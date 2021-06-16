@@ -8,7 +8,7 @@ export const App = () => {
       <h1 className='p-0 mt-4 mb-3'>Posts</h1>
       <NewPostModal />
       <PostList />
-      <Notification />
+      {/* <Notification /> */}
     </div>
   );
 };
