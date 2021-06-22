@@ -46,7 +46,8 @@ export const PostContext = ({ children }: ContextProps) => {
       console.log("Fetching data");
       console.log(posts);
     }, 1000 * 10);
-  }, [clock]);
+    // }, [clock]);
+  }, []);
 
   // TODO Add try-catch for error-handling
   const addPost = async (post: IPostNew) => {

@@ -1,0 +1,17 @@
+.custom-form {
+  input {
+    background-color: $tertiary-background-color;
+    border: none;
+    outline: none;
+    margin-bottom: 0.5em;
+    border-radius: 10px;
+    color: $text-color;
+    padding: 0.5em;
+
+    &:focus {
+      background-color: $tertiary-background-color;
+      border: transparent;
+      color: $text-color;
+    }
+  }
+}
