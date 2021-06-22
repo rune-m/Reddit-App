@@ -1,5 +1,5 @@
 import React from "react";
-import { usePosts } from "../state/PostContext";
+import { usePosts } from "../../state/PostContext";
 import { Post } from "./Post";
 
 export const PostList = () => {

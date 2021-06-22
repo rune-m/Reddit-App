@@ -1,7 +1,7 @@
-import { usePosts } from "../state/PostContext";
-import { IPost } from "../types/types";
+import { usePosts } from "../../state/PostContext";
+import { IPost } from "../../types/types";
 import { ModalForm } from "./ModalForm";
-import { useModalBtn } from "../hooks/useModalBtn";
+import { useModalBtn } from "../../hooks/useModalBtn";
 import React from "react";
 
 interface Props {

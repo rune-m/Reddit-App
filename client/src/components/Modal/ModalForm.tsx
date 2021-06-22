@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { IPost } from "../types/types";
+import { IPost } from "../../types/types";
 
 interface Props {
   handleSubmit: (e: React.FormEvent) => void;

@@ -1,9 +1,9 @@
 import React from "react";
-import { useInput } from "../hooks/useInput";
-import { usePosts } from "../state/PostContext";
-import { IPost } from "../types/types";
+import { useInput } from "../../hooks/useInput";
+import { usePosts } from "../../state/PostContext";
+import { IPost } from "../../types/types";
 import { ModalForm } from "./ModalForm";
-import { useModalBtn } from "../hooks/useModalBtn";
+import { useModalBtn } from "../../hooks/useModalBtn";
 
 interface Props {
   post: IPost;

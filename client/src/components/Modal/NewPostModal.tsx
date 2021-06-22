@@ -1,9 +1,9 @@
 import React from "react";
-import { useInput } from "../hooks/useInput";
-import { usePosts } from "../state/PostContext";
-import { IPostNew } from "../types/types";
+import { useInput } from "../../hooks/useInput";
+import { usePosts } from "../../state/PostContext";
+import { IPostNew } from "../../types/types";
 import { ModalForm } from "./ModalForm";
-import { useModalBtn } from "../hooks/useModalBtn";
+import { useModalBtn } from "../../hooks/useModalBtn";
 
 export const NewPostModal = () => {
   // Input fields

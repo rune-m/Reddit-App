@@ -1,5 +1,5 @@
 import * as React from "react";
-import { NewPostModal } from "./NewPostModal";
+import { NewPostModal } from "../Modal/NewPostModal";
 import { PostList } from "./PostList";
 
 export const PostsHome = () => {

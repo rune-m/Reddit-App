@@ -1,9 +1,9 @@
 import React from "react";
-import { IPost } from "../types/types";
-import { DeletePostModal } from "./DeletePostModal";
-import { EditPostModal } from "./EditPostModal";
-import { formatDate } from "../utils/DateFormat";
-import { usePosts } from "../state/PostContext";
+import { IPost } from "../../types/types";
+import { DeletePostModal } from "../Modal/DeletePostModal";
+import { EditPostModal } from "../Modal/EditPostModal";
+import { formatDate } from "../../utils/DateFormat";
+import { usePosts } from "../../state/PostContext";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";

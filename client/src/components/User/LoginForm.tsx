@@ -1,8 +1,8 @@
 import * as React from "react";
-import { useInput } from "../hooks/useInput";
 import { FormComponent } from "./FormComponent";
+import { useInput } from "../../hooks/useInput";
 
-export const RegisterForm = () => {
+export const LoginForm = () => {
   const emailUsername = useInput("text", "Username or email");
   const password = useInput("password", "Password");
 
@@ -34,12 +34,12 @@ export const RegisterForm = () => {
         </div>
         <div className='card-footer mt-3'>
           <button type='submit' className='btn btn-primary main-button'>
-            Register
+            Log in
           </button>
         </div>
       </div>
     );
   };
 
-  return <FormComponent body={formBody} title="Register" />;
+  return <FormComponent body={formBody} title="Login" />;
 };
