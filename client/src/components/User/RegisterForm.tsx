@@ -9,6 +9,7 @@ export const RegisterForm = () => {
   const formBody = () => {
     return (
       <div>
+        <h2>Register</h2>
         <div className='card-text'>
           <div className='form-floating custom-form mb-3'>
             {/* <div className='row mx-auto'> */}
@@ -41,5 +42,5 @@ export const RegisterForm = () => {
     );
   };
 
-  return <FormComponent body={formBody} title="Register" />;
+  return <FormComponent body={formBody} />;
 };

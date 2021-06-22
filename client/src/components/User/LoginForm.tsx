@@ -9,6 +9,7 @@ export const LoginForm = () => {
   const formBody = () => {
     return (
       <div>
+        <h2>Login</h2>
         <div className='card-text'>
           <div className='form-floating custom-form mb-3'>
             {/* <div className='row mx-auto'> */}
@@ -41,5 +42,5 @@ export const LoginForm = () => {
     );
   };
 
-  return <FormComponent body={formBody} title="Login" />;
+  return <FormComponent body={formBody} />;
 };

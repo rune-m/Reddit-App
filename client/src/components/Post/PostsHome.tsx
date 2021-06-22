@@ -5,7 +5,7 @@ import { PostList } from "./PostList";
 export const PostsHome = () => {
   return (
     <>
-      <h1 className='p-0 mt-4 mb-3'>Posts</h1>
+      <h2 className='p-0 mt-4 mb-3'>Posts</h2>
       <NewPostModal />
       <PostList />
     </>
