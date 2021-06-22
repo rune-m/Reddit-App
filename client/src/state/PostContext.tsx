@@ -44,10 +44,8 @@ export const PostContext = ({ children }: ContextProps) => {
     setTimeout(() => {
       setClock(clock % 2 === 0 ? clock + 1 : clock - 1);
       console.log("Fetching data");
-      console.log(posts);
     }, 1000 * 10);
-    // }, [clock]);
-  }, []);
+  }, [clock, postService]);
 
   // TODO Add try-catch for error-handling
   const addPost = async (post: IPostNew) => {
