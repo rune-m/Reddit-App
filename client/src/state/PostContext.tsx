@@ -25,15 +25,19 @@ export function usePosts() {
 
 export const PostContext = ({ children }: ContextProps) => {
   const [posts, setPosts] = useState<IPost[]>([]);
-  const [clock, setClock] = useState<number>(0);
+  // const [clock, setClock] = useState<number>(0);
 
   const postService = useService("/api/posts");
 
   useEffect(() => {
+    let repeat: NodeJS.Timeout;
+
     const fetch = async () => {
       try {
         const fetchedPosts: IPost[] = await postService.getAll();
         setPosts(sortByDateDesc(fetchedPosts));
+        console.log("Fetching posts...");
+        repeat = setTimeout(fetch, 3000);
       } catch (err) {
         console.log("Error fetching data");
       }
@@ -41,11 +45,18 @@ export const PostContext = ({ children }: ContextProps) => {
 
     fetch();
 
-    setTimeout(() => {
-      setClock(clock % 2 === 0 ? clock + 1 : clock - 1);
-      console.log("Fetching data");
-    }, 1000 * 10);
-  }, [clock]);
+    return () => {
+      if (repeat) {
+        clearTimeout(repeat);
+      }
+    };
+
+    // setTimeout(() => {
+    //   setClock(clock % 2 === 0 ? clock + 1 : clock - 1);
+    //   console.log("Fetching data");
+    // }, 1000 * 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // TODO Add try-catch for error-handling
   const addPost = async (post: IPostNew) => {
