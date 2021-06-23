@@ -7,6 +7,14 @@ export interface IPost {
   upvotes: number;
 }
 
+export interface IUser {
+  id?: number;
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+}
+
 export interface PostContextState {
   posts: IPost[];
   addPost: (post: IPost) => void;

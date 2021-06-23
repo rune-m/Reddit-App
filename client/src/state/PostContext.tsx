@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useService } from "../hooks/useService";
 import {
@@ -27,14 +28,15 @@ export const PostContext = ({ children }: ContextProps) => {
   const [posts, setPosts] = useState<IPost[]>([]);
   // const [clock, setClock] = useState<number>(0);
 
-  const postService = useService("/api/posts");
+  const baseUrl = "/api/post";
+  const postService = useService(baseUrl);
 
   useEffect(() => {
     let repeat: NodeJS.Timeout;
 
     const fetch = async () => {
       try {
-        const fetchedPosts: IPost[] = await postService.getAll();
+        const fetchedPosts: IPost[] = await axios.get(baseUrl);
         setPosts(sortByDateDesc(fetchedPosts));
         console.log("Fetching posts...");
         repeat = setTimeout(fetch, 3000);
@@ -50,12 +52,6 @@ export const PostContext = ({ children }: ContextProps) => {
         clearTimeout(repeat);
       }
     };
-
-    // setTimeout(() => {
-    //   setClock(clock % 2 === 0 ? clock + 1 : clock - 1);
-    //   console.log("Fetching data");
-    // }, 1000 * 1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // TODO Add try-catch for error-handling
