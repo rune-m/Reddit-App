@@ -3,6 +3,7 @@ require("express-async-errors");
 import middleware from "./utils/middleware";
 const cors = require("cors");
 const postRouter = require("./routers/postRouter");
+const userRouter = require("./routers/userRouter");
 const app = express();
 
 // Middleware
@@ -12,6 +13,7 @@ app.use(middleware.requestLogger);
 
 // Routes
 app.use("/api/posts", postRouter);
+app.use("/api/users", userRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
