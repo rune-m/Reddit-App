@@ -3,7 +3,7 @@ import { FormComponent } from "./FormComponent";
 import { useInput } from "../../hooks/useInput";
 
 export const LoginForm = () => {
-  const emailUsername = useInput("text", "Username or email");
+  const emailUsername = useInput("email", "Username or email");
   const password = useInput("password", "Password");
 
   const formBody = () => {

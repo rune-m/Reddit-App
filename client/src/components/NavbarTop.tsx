@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Nav, Navbar } from "react-bootstrap";
 
 export const NavbarTop = () => {
   return (
@@ -16,7 +17,28 @@ export const NavbarTop = () => {
         </li>
       </ul> */}
 
-      <nav className='navbar navbar-expand-lg navbar-dark bg-dark mt-3'>
+      <Navbar
+        collapseOnSelect
+        expand='lg'
+        bg='dark'
+        variant='dark'
+        className='mt-3'
+      >
+        <Navbar.Brand href='/'>
+          <h1>PostApp</h1>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+        <Navbar.Collapse id='responsive-navbar-nav'>
+          <Nav className='mr-auto'>
+            {/* <Nav.Link href='#features'>Features</Nav.Link> */}
+          </Nav>
+          <Nav className='ms-auto'>
+            <Nav.Link href='/login'>Log in</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+
+      {/* <nav className='navbar navbar-expand-lg navbar-dark bg-dark mt-3'>
         <div className='d-flex flex-grow-1'>
           <span className='w-100 d-lg-none d-block'></span>
           <a className='navbar-brand d-none d-lg-inline-block' href='/'>
@@ -45,7 +67,7 @@ export const NavbarTop = () => {
             </li>
           </ul>
         </div>
-      </nav>
+      </nav> */}
     </div>
   );
 };
