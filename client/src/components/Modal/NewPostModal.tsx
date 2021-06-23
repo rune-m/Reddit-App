@@ -54,7 +54,7 @@ export const NewPostModal = () => {
       <ModalForm
         handleSubmit={handleAddPost}
         modalBtn={useModalBtn(
-          "btn main-button",
+          "btn main-button float-end",
           "New Post",
           "Create a new post"
         )}
