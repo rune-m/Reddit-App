@@ -30,7 +30,6 @@ userRouter.post("/register", async (req, res) => {
   const user = new User({
     email: body.email,
     name: body.name,
-    username: body.username,
     passwordHash,
   });
 

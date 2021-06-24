@@ -8,6 +8,7 @@ import {
   IPostNew,
 } from "../types/types";
 import { sortByDateDesc } from "../utils/Sort";
+import { useUser } from "./UserContext";
 
 const contextDefaultValues: PostContextState = {
   posts: [],
@@ -30,18 +31,22 @@ export const PostContext = ({ children }: ContextProps) => {
   const baseUrl = "/api/posts";
   const postService = useService(baseUrl);
 
+  const { user } = useUser();
+
   useEffect(() => {
     let repeat: NodeJS.Timeout;
 
     const fetch = async () => {
-      try {
-        const fetchedPosts: IPost[] = await (await axios.get(baseUrl)).data;
-        setPosts(sortByDateDesc(fetchedPosts));
-        console.log("Fetching posts...");
-        repeat = setTimeout(fetch, 10000);
-      } catch (err) {
-        console.log("Error fetching data", err);
+      if (user) {
+        try {
+          const fetchedPosts: IPost[] = await (await axios.get(baseUrl)).data;
+          setPosts(sortByDateDesc(fetchedPosts));
+          console.log("Fetching posts...");
+        } catch (err) {
+          console.log("Error fetching data", err);
+        }
       }
+      repeat = setTimeout(fetch, 10000);
     };
 
     fetch();
@@ -51,7 +56,7 @@ export const PostContext = ({ children }: ContextProps) => {
         clearTimeout(repeat);
       }
     };
-  }, []);
+  }, [user]);
 
   // TODO Add try-catch for error-handling
   const addPost = async (post: IPostNew) => {

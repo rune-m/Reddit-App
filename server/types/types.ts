@@ -10,7 +10,6 @@ export interface IPost {
 export interface IUser {
   id?: number;
   name: string;
-  username: string;
   email: string;
 }
 
@@ -22,7 +21,7 @@ export interface IUserHash extends IUser {
   passwordHash: string;
 }
 
-export type IUserLogin = Omit<IUserPass, "id" | "name" | "username">;
+export type IUserLogin = Omit<IUserPass, "id" | "name">;
 
 export interface PostContextState {
   posts: IPost[];
