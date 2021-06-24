@@ -24,7 +24,7 @@ export const useService = (baseUrlProp: string) => {
     const config = { headers: { Authorization: token } };
 
     const req = await axios.post(baseUrl + url, obj, config);
-    console.log(req);
+    console.log("Request", req, req.data);
     return req.data;
   };
 

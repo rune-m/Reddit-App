@@ -23,6 +23,12 @@ userRouter.post("/register", async (req, res) => {
   const body: IUserPass = req.body;
 
   // Check if email already exists
+  const existingUser = await User.findOne({ email: body.email });
+  if (existingUser) {
+    res.status(401).json({ error: "Email is already registered" });
+    return;
+  }
+
   // Check that email is valid
 
   const passwordHash = await bcrypt.hash(body.password, 10);

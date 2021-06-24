@@ -57,7 +57,7 @@ export const UserContext = ({ children }: ContextProps) => {
       // Update state
       setUser(activeUser);
     } catch (err) {
-      console.log("Invalid login credentials");
+      console.log("Invalid login credentials", err.response.data);
     }
   };
 
@@ -73,7 +73,7 @@ export const UserContext = ({ children }: ContextProps) => {
         setUser(newUser);
       }
     } catch (err) {
-      console.log("Error creating new user");
+      console.log("Error creating new user:", err.response.data);
     }
   };
 
