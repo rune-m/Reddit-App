@@ -30,16 +30,20 @@ userRouter.post("/register", async (req, res) => {
 userRouter.post("/login", async (req, res) => {
   const body: IUserLogin = req.body;
 
-  console.log(body);
+  console.log("Body", body);
 
   let foundUser;
-  if (body.username) {
-    console.log("username");
-    foundUser = await User.findOne({ username: body.username });
-  } else if (body.email) {
-    console.log("email");
-    foundUser = await User.findOne({ email: body.email });
-  }
+  // if (body.username) {
+  //   console.log("username");
+  //   foundUser = await User.findOne({ username: body.username });
+  //   console.log("Found user", foundUser);
+  // } else if (body.email) {
+  console.log("email");
+  foundUser = await User.findOne({ email: body.email });
+  console.log("Found user", foundUser);
+  // } else {
+  //   console.log("Username and/or email not present");
+  // }
 
   const correctPass =
     foundUser === null ? false : body.password === foundUser.password;

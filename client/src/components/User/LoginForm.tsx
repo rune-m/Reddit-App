@@ -1,10 +1,30 @@
 import * as React from "react";
 import { FormComponent } from "./FormComponent";
 import { useInput } from "../../hooks/useInput";
+import { useUser } from "../../state/UserContext";
+import { Link } from "react-router-dom";
 
 export const LoginForm = () => {
-  const emailUsername = useInput("email", "Username or email");
+  const usernameEmail = useInput("text", "Username or email");
   const password = useInput("password", "Password");
+
+  const { login, user } = useUser();
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    const credentials = {
+      usernameEmail: usernameEmail.value,
+      password: password.value,
+    };
+    login(credentials);
+    if (user) {
+      console.log("succsessful login", user);
+      usernameEmail.onSubmit();
+      password.onSubmit();
+
+      <Link to='/' />;
+    }
+  };
 
   const formBody = () => {
     return (
@@ -14,13 +34,13 @@ export const LoginForm = () => {
           <div className='form-floating custom-form mb-3'>
             {/* <div className='row mx-auto'> */}
             <input
-              {...emailUsername}
+              {...usernameEmail}
               className='col-12 form-control'
               required
               maxLength={30}
-              id='emailUsername'
+              id='usernameEmail'
             />
-            <label htmlFor='emailUsername'>Username or email</label>{" "}
+            <label htmlFor='usernameEmail'>Username or email</label>{" "}
           </div>
           <div className='form-floating custom-form'>
             <input
@@ -42,5 +62,5 @@ export const LoginForm = () => {
     );
   };
 
-  return <FormComponent body={formBody} />;
+  return <FormComponent body={formBody} onSubmit={handleLogin} />;
 };

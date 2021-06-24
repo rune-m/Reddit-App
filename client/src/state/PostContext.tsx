@@ -26,9 +26,8 @@ export function usePosts() {
 
 export const PostContext = ({ children }: ContextProps) => {
   const [posts, setPosts] = useState<IPost[]>([]);
-  // const [clock, setClock] = useState<number>(0);
 
-  const baseUrl = "/api/post";
+  const baseUrl = "/api/posts";
   const postService = useService(baseUrl);
 
   useEffect(() => {
@@ -36,12 +35,12 @@ export const PostContext = ({ children }: ContextProps) => {
 
     const fetch = async () => {
       try {
-        const fetchedPosts: IPost[] = await axios.get(baseUrl);
+        const fetchedPosts: IPost[] = await (await axios.get(baseUrl)).data;
         setPosts(sortByDateDesc(fetchedPosts));
         console.log("Fetching posts...");
-        repeat = setTimeout(fetch, 3000);
+        repeat = setTimeout(fetch, 10000);
       } catch (err) {
-        console.log("Error fetching data");
+        console.log("Error fetching data", err);
       }
     };
 

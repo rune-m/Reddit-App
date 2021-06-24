@@ -15,7 +15,7 @@ export interface IUser {
   password: string;
 }
 
-export type IUserLogin = Omit<IUser, "id" | "name">;
+export type IUserLogin = Omit<IUser, "id" | "name" | "username">;
 
 export interface PostContextState {
   posts: IPost[];

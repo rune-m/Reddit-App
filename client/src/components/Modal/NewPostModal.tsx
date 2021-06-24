@@ -4,6 +4,7 @@ import { usePosts } from "../../state/PostContext";
 import { IPostNew } from "../../types/types";
 import { ModalForm } from "./ModalForm";
 import { useModalBtn } from "../../hooks/useModalBtn";
+import { useUser } from "../../state/UserContext";
 
 export const NewPostModal = () => {
   // Input fields
@@ -11,6 +12,7 @@ export const NewPostModal = () => {
   const content = useInput("text", "Enter post...");
 
   const { addPost } = usePosts();
+  const { user } = useUser();
 
   const handleAddPost = (e: React.FormEvent): void => {
     e.preventDefault();
@@ -18,7 +20,7 @@ export const NewPostModal = () => {
     const post: IPostNew = {
       title: title.value,
       content: content.value,
-      author: "Kari",
+      author: user === null ? "" : user.name,
       date: new Date().toISOString(),
       upvotes: 0,
     };

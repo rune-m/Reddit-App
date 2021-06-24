@@ -6,6 +6,8 @@ export const RegisterForm = () => {
   const emailUsername = useInput("text", "Username or email");
   const password = useInput("password", "Password");
 
+  const handleRegister = () => {};
+
   const formBody = () => {
     return (
       <div>
@@ -42,5 +44,5 @@ export const RegisterForm = () => {
     );
   };
 
-  return <FormComponent body={formBody} />;
+  return <FormComponent body={formBody} onSubmit={handleRegister} />;
 };
