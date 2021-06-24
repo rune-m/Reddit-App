@@ -14,6 +14,7 @@ const contextDefaultValues: UserContextState = {
   login: () => {},
   register: () => {},
   updateUser: () => {},
+  logout: () => {},
 };
 
 const UserState = React.createContext<UserContextState>(contextDefaultValues);
@@ -64,13 +65,22 @@ export const UserContext = ({ children }: ContextProps) => {
     try {
       const newUser = await userService.create(user, "/register");
       if (newUser) {
+        // Update localStorage
+        window.localStorage.setItem("activeUser", JSON.stringify(newUser));
+        // Update token
+        userService.updateToken(newUser.token);
+        // Update state
         setUser(newUser);
       }
-      return newUser;
     } catch (err) {
       console.log("Error creating new user");
-      return null;
     }
+  };
+
+  const logout = async () => {
+    window.localStorage.removeItem("activeUser");
+    userService.updateToken("");
+    setUser(null);
   };
 
   return (
@@ -80,6 +90,7 @@ export const UserContext = ({ children }: ContextProps) => {
         login,
         register,
         updateUser,
+        logout,
       }}
     >
       {children}

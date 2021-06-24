@@ -1,7 +1,10 @@
 import * as React from "react";
 import { Nav, Navbar } from "react-bootstrap";
+import { useUser } from "../state/UserContext";
 
 export const NavbarTop = () => {
+  const { user, logout } = useUser();
+
   return (
     <div>
       <Navbar
@@ -21,7 +24,20 @@ export const NavbarTop = () => {
           </Nav>
           <Nav className='ms-auto'>
             {/* Add component for handling logged in/logged out */}
-            <Nav.Link href='/login'>Log in</Nav.Link>
+            {!user ? (
+              <>
+                <Nav.Link href='/login'>Log in</Nav.Link>
+                <Nav.Link href='/register'>Register</Nav.Link>
+              </>
+            ) : (
+              <>
+                <Nav.Link href='/'>Home</Nav.Link>
+                <Nav.Link href='/account'>My Account</Nav.Link>
+                <Nav.Link href='/login' onClick={logout}>
+                  Log out
+                </Nav.Link>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

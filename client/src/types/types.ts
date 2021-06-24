@@ -24,13 +24,12 @@ export type IUserNew = Omit<IUser, "id">;
 export interface IUser {
   id: number;
   name: string;
-  username: string;
   email: string;
   password: string;
 }
 
 export interface IUserLogin {
-  usernameEmail: string;
+  email: string;
   password: string;
 }
 
@@ -39,6 +38,7 @@ export interface UserContextState {
   login: (credentials: IUserLogin) => void;
   register: (user: IUserNew) => void;
   updateUser: (user: any) => void;
+  logout: () => void;
 }
 
 export interface ContextProps {

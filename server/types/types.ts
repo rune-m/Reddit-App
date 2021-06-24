@@ -12,10 +12,17 @@ export interface IUser {
   name: string;
   username: string;
   email: string;
+}
+
+export interface IUserPass extends IUser {
   password: string;
 }
 
-export type IUserLogin = Omit<IUser, "id" | "name" | "username">;
+export interface IUserHash extends IUser {
+  passwordHash: string;
+}
+
+export type IUserLogin = Omit<IUserPass, "id" | "name" | "username">;
 
 export interface PostContextState {
   posts: IPost[];

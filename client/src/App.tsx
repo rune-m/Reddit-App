@@ -21,10 +21,12 @@ export const App = () => {
           <Route exact path='/'>
             {user === null ? <Redirect to='/login' /> : <PostList />}
           </Route>
+          <Route exact path='/register'>
+            {user === null ? <RegisterForm /> : <Redirect to='/' />}
+          </Route>
           <Route exact path='/login'>
             {user === null ? <LoginForm /> : <Redirect to='/' />}
           </Route>
-          <Route path='/register' component={RegisterForm} />
         </Switch>
       </Router>
     </div>

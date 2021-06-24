@@ -5,7 +5,7 @@ import { useUser } from "../../state/UserContext";
 import { Link } from "react-router-dom";
 
 export const LoginForm = () => {
-  const usernameEmail = useInput("text", "Username or email");
+  const email = useInput("email", "Email");
   const password = useInput("password", "Password");
 
   const { login, user } = useUser();
@@ -13,13 +13,13 @@ export const LoginForm = () => {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     const credentials = {
-      usernameEmail: usernameEmail.value,
+      email: email.value,
       password: password.value,
     };
     login(credentials);
     if (user) {
       console.log("succsessful login", user);
-      usernameEmail.onSubmit();
+      email.onSubmit();
       password.onSubmit();
 
       <Link to='/' />;
@@ -34,7 +34,7 @@ export const LoginForm = () => {
           <div className='form-floating custom-form mb-3'>
             {/* <div className='row mx-auto'> */}
             <input
-              {...usernameEmail}
+              {...email}
               className='col-12 form-control'
               required
               maxLength={30}
@@ -56,6 +56,12 @@ export const LoginForm = () => {
         <div className='card-footer mt-3'>
           <button type='submit' className='btn btn-primary main-button'>
             Log in
+          </button>
+          <br />
+          <button className='text-button mt-3'>
+            <a href='/register' style={{ color: "white" }}>
+              Register a new account here
+            </a>
           </button>
         </div>
       </div>
