@@ -36,15 +36,11 @@ export const UserContext = ({ children }: ContextProps) => {
     if (activeUserJSON) {
       const user = JSON.parse(activeUserJSON);
       setUser(user);
-      console.log("User", user);
-      userService.updateToken(user.token);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateUser = (user: any) => {
     setUser(user);
-    userService.updateToken(user.token);
   };
 
   const login = async (credentials: IUserLogin) => {
@@ -52,13 +48,11 @@ export const UserContext = ({ children }: ContextProps) => {
       const activeUser = await userService.create(credentials, "/login");
       // Update localStorage
       window.localStorage.setItem("activeUser", JSON.stringify(activeUser));
-      // Update token
-      userService.updateToken(activeUser.token);
       console.log("set token", activeUser.token);
       // Update state
       setUser(activeUser);
-    } catch (err) {
-      console.log("Invalid login credentials", err.response.data);
+    } catch (error) {
+      console.log("Invalid login credentials", error.response.data);
     }
   };
 
@@ -68,19 +62,16 @@ export const UserContext = ({ children }: ContextProps) => {
       if (newUser) {
         // Update localStorage
         window.localStorage.setItem("activeUser", JSON.stringify(newUser));
-        // Update token
-        userService.updateToken(newUser.token);
         // Update state
         setUser(newUser);
       }
-    } catch (err) {
-      console.log("Error creating new user:", err.response.data);
+    } catch (error) {
+      console.log("erroror creating new user:", error.response.data);
     }
   };
 
   const logout = async () => {
     window.localStorage.removeItem("activeUser");
-    userService.updateToken("");
     setUser(null);
   };
 

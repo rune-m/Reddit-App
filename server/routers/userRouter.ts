@@ -5,9 +5,9 @@ import User from "../db/models/userModel";
 import { IUserLogin, IUser, IUserPass } from "../types/types";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { createAccessToken } from "../utils/tokenUtils";
+import { createAccessToken, verifyToken } from "../utils/tokenUtils";
 
-userRouter.get("/:id", async (req, res) => {
+userRouter.get("/:id", verifyToken, async (req, res) => {
   const user = await User.findById(req.body.id);
   if (user) {
     res.json(user);
@@ -15,7 +15,7 @@ userRouter.get("/:id", async (req, res) => {
   res.status(404).json({ error: "User with id doesn't exist on server" });
 });
 
-userRouter.get("/", async (_req, res) => {
+userRouter.get("/", verifyToken, async (_req, res) => {
   const users = await User.find({});
   res.json(users);
 });
@@ -87,7 +87,7 @@ userRouter.post("/login", async (req, res) => {
   res.status(200).send({ token, name: foundUser.name });
 });
 
-userRouter.delete("/", async (_req, res) => {
+userRouter.delete("/", verifyToken, async (_req, res) => {
   await User.deleteMany({});
   res.json();
 });

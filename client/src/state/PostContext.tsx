@@ -39,17 +39,15 @@ export const PostContext = ({ children }: ContextProps) => {
     const fetch = async () => {
       if (user) {
         try {
-          console.log("1fetching posts...");
+          console.log("Fetching posts...");
           const fetchedPosts: IPost[] = await (
             await axios.get(baseUrl, {
               headers: { Authorization: `bearer ${user.token}` },
             })
           ).data;
-          // const fetchedPosts: IPost[] = await postService.getAll();
           setPosts(sortByDateDesc(fetchedPosts));
-          console.log("Fetching posts...");
-        } catch (err) {
-          console.log("Error fetching data", err);
+        } catch (error) {
+          console.log("erroror fetching posts", error);
         }
       }
       repeat = setTimeout(fetch, 10000);
@@ -70,8 +68,8 @@ export const PostContext = ({ children }: ContextProps) => {
       const savedPost = await postService.create(post);
       const unsortedPosts: IPost[] = posts.concat(savedPost);
       setPosts(sortByDateDesc(unsortedPosts));
-    } catch (err) {
-      console.log("Error adding new post");
+    } catch (error) {
+      console.log("Error adding new post", error.response.data);
     }
   };
 

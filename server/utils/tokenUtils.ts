@@ -1,16 +1,7 @@
 import jwt from "jsonwebtoken";
 import jwt_decode from "jwt-decode";
 
-export const validToken = (token: string) => {
-  return jwt.verify(token, "secret");
-};
-
-export const verifyToken = (
-  req,
-  res,
-  next
-  // eslint-disable-next-line consistent-return
-) => {
+export const verifyToken = (req, res, next) => {
   const token: string = req.token;
   console.log("Token", token);
   if (!token) {
