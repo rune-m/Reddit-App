@@ -2,11 +2,11 @@ import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 import { useService } from "../hooks/useService";
 import {
-  IUser,
   ContextProps,
   IUserNew,
   UserContextState,
   IUserLogin,
+  IUserToken,
 } from "../types/types";
 
 const contextDefaultValues: UserContextState = {
@@ -24,7 +24,7 @@ export function useUser() {
 }
 
 export const UserContext = ({ children }: ContextProps) => {
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<IUserToken | null>(null);
 
   const baseUrl = "/api/users";
   const userService = useService(baseUrl);
@@ -54,6 +54,7 @@ export const UserContext = ({ children }: ContextProps) => {
       window.localStorage.setItem("activeUser", JSON.stringify(activeUser));
       // Update token
       userService.updateToken(activeUser.token);
+      console.log("set token", activeUser.token);
       // Update state
       setUser(activeUser);
     } catch (err) {

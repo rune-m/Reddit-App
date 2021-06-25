@@ -28,13 +28,18 @@ export interface IUser {
   password: string;
 }
 
+export interface IUserToken {
+  token: string;
+  name: string;
+}
+
 export interface IUserLogin {
   email: string;
   password: string;
 }
 
 export interface UserContextState {
-  user: IUser | null;
+  user: IUserToken | null;
   login: (credentials: IUserLogin) => void;
   register: (user: IUserNew) => void;
   updateUser: (user: any) => void;

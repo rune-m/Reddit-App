@@ -39,7 +39,13 @@ export const PostContext = ({ children }: ContextProps) => {
     const fetch = async () => {
       if (user) {
         try {
-          const fetchedPosts: IPost[] = await (await axios.get(baseUrl)).data;
+          console.log("1fetching posts...");
+          const fetchedPosts: IPost[] = await (
+            await axios.get(baseUrl, {
+              headers: { Authorization: `bearer ${user.token}` },
+            })
+          ).data;
+          // const fetchedPosts: IPost[] = await postService.getAll();
           setPosts(sortByDateDesc(fetchedPosts));
           console.log("Fetching posts...");
         } catch (err) {

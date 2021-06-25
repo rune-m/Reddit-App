@@ -5,6 +5,7 @@ import User from "../db/models/userModel";
 import { IUserLogin, IUser, IUserPass } from "../types/types";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { createAccessToken } from "../utils/tokenUtils";
 
 userRouter.get("/:id", async (req, res) => {
   const user = await User.findById(req.body.id);
@@ -25,7 +26,7 @@ userRouter.post("/register", async (req, res) => {
   // Check if email already exists
   const existingUser = await User.findOne({ email: body.email });
   if (existingUser) {
-    res.status(401).json({ error: "Email is already registered" });
+    res.status(401).json({ errorMsg: "Email is already registered" });
     return;
   }
 
@@ -46,7 +47,7 @@ userRouter.post("/register", async (req, res) => {
     id: savedUser._id,
   };
 
-  const token = jwt.sign(userForToken, "secret");
+  const token = createAccessToken(userForToken);
 
   res.status(200).send({ token, name: savedUser.name });
 });
@@ -57,7 +58,13 @@ userRouter.post("/login", async (req, res) => {
   const foundUser: any = await User.findOne({ email: body.email });
   console.log("Found user", foundUser);
 
-  const typedPass: string = foundUser.password;
+  if (!foundUser) {
+    res
+      .status(401)
+      .json({ errorMsg: `No user with email '${body.email}' is registered` });
+  }
+
+  const typedPass: string = foundUser.passwordHash;
 
   const correctPass =
     foundUser === null
@@ -75,7 +82,7 @@ userRouter.post("/login", async (req, res) => {
     id: foundUser._id,
   };
 
-  const token = jwt.sign(userForToken, "secret");
+  const token = createAccessToken(userForToken);
 
   res.status(200).send({ token, name: foundUser.name });
 });

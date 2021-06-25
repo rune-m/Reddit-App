@@ -1,22 +1,33 @@
 import { useState } from "react";
 import axios from "axios";
+import { useUser } from "../state/UserContext";
 
 export const useService = (baseUrlProp: string) => {
   const [baseUrl] = useState<string>(baseUrlProp);
   const [token, setToken] = useState<string>("");
+
+  const { user } = useUser();
 
   const updateToken = (newToken: string) => {
     console.log("updating token...");
     setToken(`bearer ${newToken}`);
   };
 
+  const getToken = () => {
+    return user ? { headers: { Authorization: `bearer ${user.token}` } } : {};
+  };
+
   const getAll = async () => {
-    const req = await axios.get(baseUrl);
+    console.log(getToken());
+    const req = await axios.get(baseUrl, getToken());
+    console.log("Request", req, req.data);
     return req.data;
   };
 
   const get = async (id: number) => {
-    const req = await axios.get(`${baseUrl}/${id}`);
+    const config = { headers: { Authorization: token } };
+
+    const req = await axios.get(`${baseUrl}/${id}`, config);
     return req.data;
   };
 
@@ -43,5 +54,5 @@ export const useService = (baseUrlProp: string) => {
     return req.data;
   };
 
-  return { getAll, get, create, remove, update, updateToken };
+  return { getAll, get, create, remove, update, updateToken, token };
 };

@@ -36,6 +36,8 @@ const tokenExtractor = (request, _response, next) => {
   next();
 };
 
+// Check token, not valid? return error?
+
 export = {
   requestLogger,
   unknownEndpoint,

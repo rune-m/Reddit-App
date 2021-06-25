@@ -1,13 +1,18 @@
-import express from "express";
+import express, { request } from "express";
 const postRouter = express.Router();
 import Post from "../db/models/postModel";
+import {
+  validToken,
+  tokenBelongsToUser,
+  verifyToken,
+} from "../utils/tokenUtils";
 
-postRouter.get("/", async (_req, res) => {
+postRouter.get("/", verifyToken, async (_req, res) => {
   const posts = await Post.find({});
   res.json(posts);
 });
 
-postRouter.get("/:id", async (req, res) => {
+postRouter.get("/:id", verifyToken, async (req, res) => {
   const post = await Post.findById(req.params.id);
   if (post) {
     res.json(post);
@@ -16,7 +21,7 @@ postRouter.get("/:id", async (req, res) => {
   }
 });
 
-postRouter.post("/", async (req, res) => {
+postRouter.post("/", verifyToken, async (req, res) => {
   const body = req.body;
 
   const post = new Post({
@@ -31,7 +36,7 @@ postRouter.post("/", async (req, res) => {
   res.json(savedPost);
 });
 
-postRouter.delete("/:id", async (req, res) => {
+postRouter.delete("/:id", verifyToken, async (req, res) => {
   const deletedPost = await Post.findByIdAndDelete(req.params.id);
   if (deletedPost) {
     res.status(200).json(deletedPost);
@@ -40,7 +45,7 @@ postRouter.delete("/:id", async (req, res) => {
   }
 });
 
-postRouter.put("/:id", async (req, res) => {
+postRouter.put("/:id", verifyToken, async (req, res) => {
   const body = req.body;
 
   const post = {
@@ -62,7 +67,7 @@ postRouter.put("/:id", async (req, res) => {
   }
 });
 
-postRouter.put("/upvote/:id", async (req, res) => {
+postRouter.put("/upvote/:id", verifyToken, async (req, res) => {
   const updatedPost = await Post.findByIdAndUpdate(
     req.params.id,
     { $inc: { upvotes: 1 } },
@@ -78,7 +83,7 @@ postRouter.put("/upvote/:id", async (req, res) => {
   }
 });
 
-postRouter.put("/downvote/:id", async (req, res) => {
+postRouter.put("/downvote/:id", verifyToken, async (req, res) => {
   const updatedPost = await Post.findByIdAndUpdate(
     req.params.id,
     { $inc: { upvotes: -1 } },
