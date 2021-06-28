@@ -49,7 +49,7 @@ userRouter.post("/register", async (req, res) => {
 
   const token = createAccessToken(userForToken);
 
-  res.status(200).send({ token, name: savedUser.name });
+  res.status(200).send({ token, name: savedUser.name, id: savedUser._id });
 });
 
 userRouter.post("/login", async (req, res) => {
@@ -84,7 +84,7 @@ userRouter.post("/login", async (req, res) => {
 
   const token = createAccessToken(userForToken);
 
-  res.status(200).send({ token, name: foundUser.name });
+  res.status(200).send({ token, name: foundUser.name, id: foundUser._id });
 });
 
 userRouter.delete("/", verifyToken, async (_req, res) => {
