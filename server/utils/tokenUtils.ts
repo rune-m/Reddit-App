@@ -3,7 +3,7 @@ import jwt_decode from "jwt-decode";
 
 export const verifyToken = (req, res, next) => {
   const token: string = req.token;
-  console.log("Token", token);
+  // console.log("Token", token);
   if (!token) {
     console.log("no token");
     return res.status(400).json({ errorMsg: "Token is required" });
@@ -31,6 +31,6 @@ export const tokenBelongsToUser = (token: string, userId: string): boolean => {
 
 // async?
 export const createAccessToken = (payload: object) => {
-  const expiry: string = "15m";
+  const expiry: string = "7d";
   return jwt.sign(payload, "secret", { expiresIn: expiry });
 };

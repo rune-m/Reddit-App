@@ -18,7 +18,9 @@ export const Post = (post: IPost) => {
           <h6 className='card-subtitle'>
             by {post.author} | {formatDate(post.date)}
           </h6>
-          <p className='card-text'>{post.content}</p>
+          <p className='card-text' style={{ whiteSpace: "pre-wrap" }}>
+            {post.content}
+          </p>
           <div className=''>
             <button
               className='upvote-button btn d-inline-block'

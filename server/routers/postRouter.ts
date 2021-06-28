@@ -1,11 +1,8 @@
 import express, { request } from "express";
 const postRouter = express.Router();
 import Post from "../db/models/postModel";
-import {
-  validToken,
-  tokenBelongsToUser,
-  verifyToken,
-} from "../utils/tokenUtils";
+import { IPost } from "../types/types";
+import { tokenBelongsToUser, verifyToken } from "../utils/tokenUtils";
 
 postRouter.get("/", verifyToken, async (_req, res) => {
   const posts = await Post.find({});
