@@ -9,6 +9,7 @@ import {
 import { NavbarTop } from "./components/NavbarTop";
 import { PostList } from "./components/Post/PostList";
 import { useUser } from "./state/UserContext";
+import { Notification } from "./components/Notification";
 
 export const App = () => {
   const { user } = useUser();
@@ -29,6 +30,7 @@ export const App = () => {
           </Route>
         </Switch>
       </Router>
+      <Notification />
     </div>
   );
 };

@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
+import "dotenv/config";
 
-const url = "mongodb://127.0.0.1:27017/redditApp";
+const url = process.env.MONGODB_URI;
 
 export const connectToDB = () => {
   mongoose
-    .connect(url, {
+    .connect(url!, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,

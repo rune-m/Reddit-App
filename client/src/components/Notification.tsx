@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
+import { usePosts } from "../state/PostContext";
 // import { Toast } from "react-bootstrap";
 
 export const Notification = () => {
-  const [notification, setNotification] = useState(
-    "Post is deleted from server"
-  );
+  const { notification } = usePosts();
 
   return (
     <>
-      <footer className='fixed-bottom'>
+      <footer className='fixed-bottom m-2'>
         {notification && (
           <div
-            className='alert alert-primary fade show custom-alert col-xs-12 col-sm-5 col-md-4 col-lg-3 col-xl-3'
+            className='alert alert-primary transition fade show custom-alert col-xs-12 col-sm-5 col-md-4 col-lg-3 col-xl-3'
             role='alert'
           >
             {notification}

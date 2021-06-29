@@ -17,6 +17,8 @@ const contextDefaultValues: PostContextState = {
   updatePost: () => {},
   upvotePost: () => {},
   downvotePost: () => {},
+  newNotification: () => {},
+  notification: "",
 };
 
 const PostState = React.createContext<PostContextState>(contextDefaultValues);
@@ -27,6 +29,7 @@ export function usePosts() {
 
 export const PostContext = ({ children }: ContextProps) => {
   const [posts, setPosts] = useState<IPost[]>([]);
+  const [notification, setNotification] = useState<string>("");
 
   const baseUrl = "/api/posts";
   const postService = useService(baseUrl);
@@ -122,6 +125,11 @@ export const PostContext = ({ children }: ContextProps) => {
     }
   };
 
+  const newNotification = (msg: string) => {
+    setNotification(msg);
+    setTimeout(() => setNotification(""), 5000);
+  };
+
   return (
     <PostState.Provider
       value={{
@@ -131,6 +139,8 @@ export const PostContext = ({ children }: ContextProps) => {
         updatePost,
         upvotePost,
         downvotePost,
+        notification,
+        newNotification,
       }}
     >
       {children}

@@ -1,5 +1,14 @@
 .custom-alert {
-  background-color: #fcfc8ab6;
+  // background-color: #fcfc8ae5;
+  background-color: #ffffaee5;
   color: black;
   border: none;
+  border-radius: 20px;
+}
+
+.transition {
+  -webkit-transition: opacity 3s ease-in-out;
+  -moz-transition: opacity 3s ease-in-out;
+  -o-transition: opacity 3s ease-in-out;
+  -ms-transision: opacity 3s ease-in-out;
 }

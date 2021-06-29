@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import jwt_decode from "jwt-decode";
+import "dotenv/config";
 
 export const verifyToken = (req, res, next) => {
   const token: string = req.token;
@@ -30,7 +31,7 @@ export const tokenBelongsToUser = (token: string, userId: string): boolean => {
 };
 
 // async?
-export const createAccessToken = (payload: object) => {
+export const createAccessToken = (payload: object): string => {
   const expiry: string = "7d";
-  return jwt.sign(payload, "secret", { expiresIn: expiry });
+  return jwt.sign(payload, process.env.SECRET!, { expiresIn: expiry });
 };
