@@ -8,6 +8,7 @@ import {
   IUserLogin,
   IUserToken,
 } from "../types/types";
+import { useNotification } from "./NotificationContext";
 
 const contextDefaultValues: UserContextState = {
   user: null,
@@ -28,6 +29,8 @@ export const UserContext = ({ children }: ContextProps) => {
 
   const baseUrl = "/api/users";
   const userService = useService(baseUrl);
+
+  const { newNotification } = useNotification();
 
   useEffect(() => {
     console.log("fetching localStorage...");
@@ -51,8 +54,10 @@ export const UserContext = ({ children }: ContextProps) => {
       console.log("set token", activeUser.token);
       // Update state
       setUser(activeUser);
+      newNotification("");
     } catch (error) {
       console.log("Invalid login credentials", error.response.data);
+      newNotification(error.response.data.errorMsg);
     }
   };
 
@@ -66,7 +71,8 @@ export const UserContext = ({ children }: ContextProps) => {
         setUser(newUser);
       }
     } catch (error) {
-      console.log("erroror creating new user:", error.response.data);
+      console.log("error creating new user:", error.response.data);
+      newNotification(error.response.data.errorMsg);
     }
   };
 

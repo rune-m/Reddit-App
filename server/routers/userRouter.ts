@@ -12,7 +12,7 @@ userRouter.get("/:id", verifyToken, async (req, res) => {
   if (user) {
     res.json(user);
   }
-  res.status(404).json({ error: "User with id doesn't exist on server" });
+  res.status(404).json({ errorMsg: "User with id doesn't exist on server" });
 });
 
 userRouter.get("/", verifyToken, async (_req, res) => {
@@ -73,7 +73,7 @@ userRouter.post("/login", async (req, res) => {
 
   if (!(foundUser && correctPass)) {
     return res.status(401).json({
-      error: "Invalid email and/or password",
+      errorMsg: "Invalid email and/or password",
     });
   }
 

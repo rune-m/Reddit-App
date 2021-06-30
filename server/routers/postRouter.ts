@@ -38,7 +38,7 @@ postRouter.delete("/:id", verifyToken, async (req, res) => {
   if (deletedPost) {
     res.status(200).json(deletedPost);
   } else {
-    res.status(404).end();
+    res.status(404).json({ errorMsg: "Post is removed from server" });
   }
 });
 
@@ -60,7 +60,7 @@ postRouter.put("/:id", verifyToken, async (req, res) => {
   if (updatedPost) {
     res.json(updatedPost);
   } else {
-    res.status(404).end();
+    res.status(404).json({ errorMsg: "Post is removed from server" });
   }
 });
 
@@ -76,7 +76,7 @@ postRouter.put("/upvote/:id", verifyToken, async (req, res) => {
   if (updatedPost) {
     res.json(updatedPost);
   } else {
-    res.status(404).end();
+    res.status(404).json({ errorMsg: "Post is removed from server" });
   }
 });
 
@@ -92,7 +92,7 @@ postRouter.put("/downvote/:id", verifyToken, async (req, res) => {
   if (updatedPost) {
     res.json(updatedPost);
   } else {
-    res.status(404).end();
+    res.status(404).json({ errorMsg: "Post is removed from server" });
   }
 });
 

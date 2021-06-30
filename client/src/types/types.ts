@@ -17,8 +17,6 @@ export interface PostContextState {
   updatePost: (post: IPost) => void;
   upvotePost: (post: IPost) => void;
   downvotePost: (post: IPost) => void;
-  newNotification: (msg: string) => void;
-  notification: string;
 }
 
 export type IUserNew = Omit<IUser, "id">;
@@ -47,6 +45,11 @@ export interface UserContextState {
   register: (user: IUserNew) => void;
   updateUser: (user: any) => void;
   logout: () => void;
+}
+
+export interface NotificationContextState {
+  notification: string;
+  newNotification: (msg: string) => void;
 }
 
 export interface ContextProps {

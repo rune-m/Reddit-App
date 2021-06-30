@@ -8,6 +8,7 @@ import {
   IPostNew,
 } from "../types/types";
 import { sortByDateDesc } from "../utils/Sort";
+import { useNotification } from "./NotificationContext";
 import { useUser } from "./UserContext";
 
 const contextDefaultValues: PostContextState = {
@@ -17,8 +18,6 @@ const contextDefaultValues: PostContextState = {
   updatePost: () => {},
   upvotePost: () => {},
   downvotePost: () => {},
-  newNotification: () => {},
-  notification: "",
 };
 
 const PostState = React.createContext<PostContextState>(contextDefaultValues);
@@ -29,12 +28,12 @@ export function usePosts() {
 
 export const PostContext = ({ children }: ContextProps) => {
   const [posts, setPosts] = useState<IPost[]>([]);
-  const [notification, setNotification] = useState<string>("");
 
   const baseUrl = "/api/posts";
   const postService = useService(baseUrl);
 
   const { user } = useUser();
+  const { newNotification } = useNotification();
 
   useEffect(() => {
     let repeat: NodeJS.Timeout;
@@ -50,7 +49,8 @@ export const PostContext = ({ children }: ContextProps) => {
           ).data;
           setPosts(sortByDateDesc(fetchedPosts));
         } catch (error) {
-          console.log("erroror fetching posts", error);
+          console.log("Error fetching posts", error.response.data);
+          newNotification("An error occured while fetching posts");
         }
       }
       repeat = setTimeout(fetch, 10000);
@@ -63,6 +63,7 @@ export const PostContext = ({ children }: ContextProps) => {
         clearTimeout(repeat);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   // TODO Add try-catch for error-handling
@@ -73,14 +74,16 @@ export const PostContext = ({ children }: ContextProps) => {
       setPosts(sortByDateDesc(unsortedPosts));
     } catch (error) {
       console.log("Error adding new post", error.response.data);
+      newNotification(error.response.data.errorMsg);
     }
   };
 
   const deletePost = async (id: number) => {
     try {
       await postService.remove(id);
-    } catch (err) {
+    } catch (error) {
       console.log("Removed from server");
+      newNotification(error.response.data.errorMsg);
     } finally {
       setPosts(posts.filter((el) => el.id !== id));
     }
@@ -93,9 +96,10 @@ export const PostContext = ({ children }: ContextProps) => {
         el.id === post.id ? updatedPost : el
       );
       setPosts(sortByDateDesc(unsortedPosts));
-    } catch (err) {
+    } catch (error) {
       console.log("Removed from server");
       setPosts(posts.filter((el) => el.id !== post.id));
+      newNotification(error.response.data.errorMsg);
     }
   };
 
@@ -107,8 +111,9 @@ export const PostContext = ({ children }: ContextProps) => {
         "/api/posts/upvote"
       );
       setPosts(posts.map((el) => (el.id === post.id ? upvotedPost : el)));
-    } catch (err) {
+    } catch (error) {
       console.log("Removed from server");
+      newNotification(error.response.data.errorMsg);
     }
   };
 
@@ -120,14 +125,10 @@ export const PostContext = ({ children }: ContextProps) => {
         "/api/posts/downvote"
       );
       setPosts(posts.map((el) => (el.id === post.id ? downvotedPost : el)));
-    } catch (err) {
+    } catch (error) {
       console.log("Removed from server");
+      newNotification(error.response.data.errorMsg);
     }
-  };
-
-  const newNotification = (msg: string) => {
-    setNotification(msg);
-    setTimeout(() => setNotification(""), 5000);
   };
 
   return (
@@ -139,8 +140,6 @@ export const PostContext = ({ children }: ContextProps) => {
         updatePost,
         upvotePost,
         downvotePost,
-        notification,
-        newNotification,
       }}
     >
       {children}
