@@ -2,7 +2,7 @@ import express from "express";
 import userModel from "../db/models/userModel";
 const userRouter = express.Router();
 import User from "../db/models/userModel";
-import { IUserLogin, IUser, IUserPass } from "../types/types";
+import { IUserLogin, IUserPass, IUserHash } from "../types/types";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { createAccessToken, verifyToken } from "../utils/tokenUtils";
@@ -15,7 +15,7 @@ userRouter.get("/:id", verifyToken, async (req, res) => {
   res.status(404).json({ errorMsg: "User with id doesn't exist on server" });
 });
 
-userRouter.get("/", verifyToken, async (_req, res) => {
+userRouter.get("/", async (_req, res) => {
   const users = await User.find({});
   res.json(users);
 });
@@ -26,7 +26,7 @@ userRouter.post("/register", async (req, res) => {
   // Check if email already exists
   const existingUser = await User.findOne({ email: body.email });
   if (existingUser) {
-    res.status(401).json({ errorMsg: "Email is already registered" });
+    res.status(400).json({ errorMsg: "Email is already registered" });
     return;
   }
 
@@ -60,7 +60,7 @@ userRouter.post("/login", async (req, res) => {
 
   if (!foundUser) {
     res
-      .status(401)
+      .status(400)
       .json({ errorMsg: `No user with email '${body.email}' is registered` });
   }
 
@@ -90,6 +90,35 @@ userRouter.post("/login", async (req, res) => {
 userRouter.delete("/", verifyToken, async (_req, res) => {
   await User.deleteMany({});
   res.json();
+});
+
+userRouter.put("/:id", async (req, res) => {
+  const body: IUserPass = req.body;
+
+  const newDetails: any = {};
+
+  if (body.email) {
+    const emailExists = await User.findOne({ email: body.email });
+
+    if (emailExists) {
+      res
+        .status(400)
+        .json({ errorMsg: `User with email '${body.email}' already exists` });
+      console.log(`ERROR: User with email '${body.email}' already exists`);
+      return;
+    }
+
+    newDetails.email = body.email;
+  }
+  if (body.name) newDetails.name = body.name;
+  if (body.password)
+    newDetails.passwordHash = await bcrypt.hash(body.password, 10);
+
+  const updatedUser = await User.findByIdAndUpdate(req.params.id, newDetails, {
+    new: true,
+  });
+
+  res.json(updatedUser).send();
 });
 
 module.exports = userRouter;
