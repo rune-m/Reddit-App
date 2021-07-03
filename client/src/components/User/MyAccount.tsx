@@ -3,11 +3,12 @@ import { useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { useInput } from "../../hooks/useInput";
 import { useUser } from "../../state/UserContext";
+import { IUserUpdate } from "../../types/types";
 import { FormComponent } from "./FormComponent";
 import { StdFormInput } from "./StdFormInput";
 
 export const MyAccount = () => {
-  const { user } = useUser();
+  const { user, updateUserDetails } = useUser();
 
   const email = useInput("email", "Email");
   const name = useInput("text", "Name");
@@ -22,22 +23,18 @@ export const MyAccount = () => {
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // const newUser: IUserNew = {
-    //   email: email.value,
-    //   password: password.value,
-    //   name: name.value,
-    // };
+    const newUser: IUserUpdate = {
+      email: email.value,
+      password: newPassword.value,
+      name: name.value,
+    };
 
-    // register(newUser);
+    updateUserDetails(newUser);
 
-    console.log(user);
-
-    if (user) {
-      email.onSubmit();
-      name.onSubmit();
-      oldPassword.onSubmit();
-      newPassword.onSubmit();
-    }
+    email.onSubmit();
+    name.onSubmit();
+    oldPassword.onSubmit();
+    newPassword.onSubmit();
   };
 
   const formBody = () => {
@@ -45,17 +42,29 @@ export const MyAccount = () => {
       <div>
         <h2>My Account</h2>
         <div className='card-text'>
-          <StdFormInput inputField={email} label='Email' id='email' />
-          <StdFormInput inputField={name} label='Name' id='name' />
+          <StdFormInput
+            inputField={email}
+            label='Email'
+            id='email'
+            requiredField={false}
+          />
+          <StdFormInput
+            inputField={name}
+            label='Name'
+            id='name'
+            requiredField={false}
+          />
           <StdFormInput
             inputField={oldPassword}
             label='Current password'
             id='oldPassword'
+            requiredField={false}
           />
           <StdFormInput
             inputField={newPassword}
             label='New password'
             id='newPassword'
+            requiredField={false}
           />
         </div>
         <div className='card-footer mt-3'>

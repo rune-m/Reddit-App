@@ -31,13 +31,15 @@ export interface IUser {
 export interface IUserToken {
   token: string;
   name: string;
-  id: string;
+  id: number;
 }
 
 export interface IUserLogin {
   email: string;
   password: string;
 }
+
+export type IUserUpdate = Partial<IUser>;
 
 export interface UserContextState {
   user: IUserToken | null;
@@ -46,6 +48,7 @@ export interface UserContextState {
   updateUser: (user: any) => void;
   logout: () => void;
   fetchLocalStorageForUser: () => void;
+  updateUserDetails: (user: IUserUpdate) => void;
 }
 
 export interface NotificationContextState {

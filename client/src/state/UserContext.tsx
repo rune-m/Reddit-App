@@ -7,6 +7,7 @@ import {
   UserContextState,
   IUserLogin,
   IUserToken,
+  IUserUpdate,
 } from "../types/types";
 import { useNotification } from "./NotificationContext";
 
@@ -17,6 +18,7 @@ const contextDefaultValues: UserContextState = {
   updateUser: () => {},
   logout: () => {},
   fetchLocalStorageForUser: () => {},
+  updateUserDetails: () => {},
 };
 
 const UserState = React.createContext<UserContextState>(contextDefaultValues);
@@ -71,6 +73,25 @@ export const UserContext = ({ children }: ContextProps) => {
     }
   };
 
+  const updateUserDetails = async (userToUpdate: IUserUpdate) => {
+    try {
+      let updatedUser;
+      if (user && user.id) {
+        console.log(typeof user.id);
+        updatedUser = await userService.update(user.id, userToUpdate);
+        const newUserObj = user;
+        newUserObj.name = updatedUser.name;
+        setUser(newUserObj);
+        console.log(user, newUserObj);
+      }
+      console.log("Updated user", updatedUser);
+      // Update token?
+    } catch (error) {
+      console.log("Error updating user details", error.response.data);
+      newNotification(error.response.data.errorMsg);
+    }
+  };
+
   const logout = async () => {
     window.localStorage.removeItem("activeUser");
     setUser(null);
@@ -95,6 +116,7 @@ export const UserContext = ({ children }: ContextProps) => {
         updateUser,
         logout,
         fetchLocalStorageForUser,
+        updateUserDetails,
       }}
     >
       {children}

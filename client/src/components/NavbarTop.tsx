@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import { useUser } from "../state/UserContext";
 
@@ -11,6 +12,10 @@ export const NavbarTop = () => {
     }
     return "";
   };
+
+  useEffect(() => {
+    console.log("User", user);
+  }, [user]);
 
   return (
     <div>
