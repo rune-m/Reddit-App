@@ -14,7 +14,7 @@ export const useService = (baseUrlProp: string) => {
   const getAll = async () => {
     console.log(getToken());
     const req = await axios.get(baseUrl, getToken());
-    console.log("Request", req, req.data);
+    // console.log("Request", req, req.data);
     return req.data;
   };
 
@@ -25,7 +25,7 @@ export const useService = (baseUrlProp: string) => {
 
   const create = async (obj: any, url: string = "") => {
     const req = await axios.post(baseUrl + url, obj, getToken());
-    console.log("Request", req, req.data);
+    // console.log("Request", req, req.data);
     return req.data;
   };
 

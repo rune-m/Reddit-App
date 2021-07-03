@@ -3,6 +3,7 @@ import { FormComponent } from "./FormComponent";
 import { useInput } from "../../hooks/useInput";
 import { useUser } from "../../state/UserContext";
 import { Link } from "react-router-dom";
+import { StdFormInput } from "./StdFormInput";
 
 export const LoginForm = () => {
   const email = useInput("email", "Email");
@@ -31,27 +32,8 @@ export const LoginForm = () => {
       <div>
         <h2>Login</h2>
         <div className='card-text'>
-          <div className='form-floating custom-form mb-3'>
-            {/* <div className='row mx-auto'> */}
-            <input
-              {...email}
-              className='col-12 form-control'
-              required
-              maxLength={30}
-              id='usernameEmail'
-            />
-            <label htmlFor='usernameEmail'>Username or email</label>{" "}
-          </div>
-          <div className='form-floating custom-form'>
-            <input
-              {...password}
-              className='col-12 form-control'
-              required
-              maxLength={30}
-              id='password'
-            />
-            <label htmlFor='password'>Password</label>{" "}
-          </div>
+          <StdFormInput inputField={email} label='Email' id='email' />
+          <StdFormInput inputField={password} label='Password' id='password' />
         </div>
         <div className='card-footer mt-3'>
           <button type='submit' className='btn btn-primary main-button'>

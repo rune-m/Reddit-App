@@ -45,6 +45,7 @@ export interface UserContextState {
   register: (user: IUserNew) => void;
   updateUser: (user: any) => void;
   logout: () => void;
+  fetchLocalStorageForUser: () => void;
 }
 
 export interface NotificationContextState {

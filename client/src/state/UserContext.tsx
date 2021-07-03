@@ -16,6 +16,7 @@ const contextDefaultValues: UserContextState = {
   register: () => {},
   updateUser: () => {},
   logout: () => {},
+  fetchLocalStorageForUser: () => {},
 };
 
 const UserState = React.createContext<UserContextState>(contextDefaultValues);
@@ -33,13 +34,7 @@ export const UserContext = ({ children }: ContextProps) => {
   const { newNotification } = useNotification();
 
   useEffect(() => {
-    console.log("fetching localStorage...");
-    const activeUserJSON = window.localStorage.getItem("activeUser");
-    console.log("Active user", activeUserJSON);
-    if (activeUserJSON) {
-      const user = JSON.parse(activeUserJSON);
-      setUser(user);
-    }
+    fetchLocalStorageForUser();
   }, []);
 
   const updateUser = (user: any) => {
@@ -81,6 +76,16 @@ export const UserContext = ({ children }: ContextProps) => {
     setUser(null);
   };
 
+  const fetchLocalStorageForUser = () => {
+    console.log("fetching localStorage...");
+    const activeUserJSON = window.localStorage.getItem("activeUser");
+    console.log("Active user", activeUserJSON);
+    if (activeUserJSON) {
+      const user = JSON.parse(activeUserJSON);
+      setUser(user);
+    }
+  };
+
   return (
     <UserState.Provider
       value={{
@@ -89,6 +94,7 @@ export const UserContext = ({ children }: ContextProps) => {
         register,
         updateUser,
         logout,
+        fetchLocalStorageForUser,
       }}
     >
       {children}
