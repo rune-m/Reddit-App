@@ -1,17 +1,21 @@
 interface Props {
-  inputField: any;
+  inputField?: any;
   label: string;
   id: string;
   requiredField?: boolean;
   defaultValue?: string;
+  value?: string;
+  onChange?: (e: any) => void;
 }
 
-export const StdFormInput = ({
-  inputField,
+export const EditFormInput = ({
   label,
   id,
   requiredField = true,
   defaultValue,
+  value,
+  inputField,
+  onChange,
 }: Props) => {
   return (
     <div className='form-floating custom-form mt-2'>
@@ -22,6 +26,8 @@ export const StdFormInput = ({
         id={id}
         required={requiredField}
         defaultValue={defaultValue}
+        value={value}
+        onChange={onChange}
       />
       <label htmlFor={id}>{label}</label>{" "}
     </div>

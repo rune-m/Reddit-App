@@ -17,6 +17,10 @@ export interface IUserPass extends IUser {
   password: string;
 }
 
+export interface IUserOldPass extends IUserPass {
+  oldPassword: string;
+}
+
 export interface IUserHash extends IUser {
   passwordHash: string;
 }

@@ -37,9 +37,11 @@ export const UserContext = ({ children }: ContextProps) => {
 
   useEffect(() => {
     fetchLocalStorageForUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateUser = (user: any) => {
+    setLocalStorageForUser(user);
     setUser(user);
   };
 
@@ -47,8 +49,7 @@ export const UserContext = ({ children }: ContextProps) => {
     try {
       const activeUser = await userService.create(credentials, "/login");
       // Update localStorage
-      window.localStorage.setItem("activeUser", JSON.stringify(activeUser));
-      console.log("set token", activeUser.token);
+      setLocalStorageForUser(activeUser);
       // Update state
       setUser(activeUser);
       newNotification("");
@@ -63,7 +64,7 @@ export const UserContext = ({ children }: ContextProps) => {
       const newUser = await userService.create(user, "/register");
       if (newUser) {
         // Update localStorage
-        window.localStorage.setItem("activeUser", JSON.stringify(newUser));
+        setLocalStorageForUser(newUser);
         // Update state
         setUser(newUser);
       }
@@ -79,10 +80,11 @@ export const UserContext = ({ children }: ContextProps) => {
       if (user && user.id) {
         console.log(typeof user.id);
         updatedUser = await userService.update(user.id, userToUpdate);
-        const newUserObj = user;
-        newUserObj.name = updatedUser.name;
-        setUser(newUserObj);
-        console.log(user, newUserObj);
+        updateUser({
+          ...user,
+          name: updatedUser.name,
+          email: updatedUser.email,
+        });
       }
       console.log("Updated user", updatedUser);
       // Update token?
@@ -97,14 +99,28 @@ export const UserContext = ({ children }: ContextProps) => {
     setUser(null);
   };
 
-  const fetchLocalStorageForUser = () => {
+  const fetchLocalStorageForUser = async () => {
     console.log("fetching localStorage...");
     const activeUserJSON = window.localStorage.getItem("activeUser");
     console.log("Active user", activeUserJSON);
     if (activeUserJSON) {
       const user = JSON.parse(activeUserJSON);
+
       setUser(user);
+
+      // const fetchedUser = await userService.get(user.id);
+      // console.log(fetchedUser);
+      // updateUser({
+      //   ...user,
+      //   name: fetchedUser.name,
+      //   email: fetchedUser.email,
+      // });
     }
+  };
+
+  const setLocalStorageForUser = (activeUser: any) => {
+    window.localStorage.setItem("activeUser", JSON.stringify(activeUser));
+    console.log("set token", activeUser.token);
   };
 
   return (

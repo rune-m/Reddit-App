@@ -1,38 +1,46 @@
 import * as React from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { useInput } from "../../hooks/useInput";
 import { useUser } from "../../state/UserContext";
 import { IUserUpdate } from "../../types/types";
 import { FormComponent } from "./FormComponent";
+import { EditFormInput } from "./EditFormInput";
 import { StdFormInput } from "./StdFormInput";
 
 export const MyAccount = () => {
   const { user, updateUserDetails } = useUser();
 
-  const email = useInput("email", "Email");
-  const name = useInput("text", "Name");
   const oldPassword = useInput("password", "Password");
   const newPassword = useInput("password", "Password");
 
+  const [email, setEmail] = useState<string>("");
+  const [name, setName] = useState<string>("");
+
   useEffect(() => {
     user === null ? <Redirect to='/login' /> : <MyAccount />;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    console.log("asdasdda", user);
+    if (user) {
+      setEmail(user.email);
+      setName(user.name);
+    }
+  }, [user]);
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleEdit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newUser: IUserUpdate = {
-      email: email.value,
+    console.log("name", name, "email", email);
+
+    const newUser: IUserUpdate & { oldPassword: string } = {
+      email,
+      oldPassword: oldPassword.value,
       password: newPassword.value,
-      name: name.value,
+      name,
     };
 
     updateUserDetails(newUser);
 
-    email.onSubmit();
-    name.onSubmit();
     oldPassword.onSubmit();
     newPassword.onSubmit();
   };
@@ -42,18 +50,22 @@ export const MyAccount = () => {
       <div>
         <h2>My Account</h2>
         <div className='card-text'>
-          <StdFormInput
-            inputField={email}
+          <EditFormInput
             label='Email'
             id='email'
             requiredField={false}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          <StdFormInput
-            inputField={name}
+          <EditFormInput
             label='Name'
             id='name'
             requiredField={false}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
+          <br />
+          <label>Change password:</label>
           <StdFormInput
             inputField={oldPassword}
             label='Current password'
@@ -77,5 +89,5 @@ export const MyAccount = () => {
     );
   };
 
-  return <FormComponent body={formBody} onSubmit={handleRegister} />;
+  return <FormComponent body={formBody} onSubmit={handleEdit} />;
 };

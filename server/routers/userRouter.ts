@@ -2,7 +2,7 @@ import express from "express";
 import userModel from "../db/models/userModel";
 const userRouter = express.Router();
 import User from "../db/models/userModel";
-import { IUserLogin, IUserPass, IUserHash } from "../types/types";
+import { IUserLogin, IUserPass, IUserHash, IUserOldPass } from "../types/types";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { createAccessToken, verifyToken } from "../utils/tokenUtils";
@@ -49,7 +49,12 @@ userRouter.post("/register", async (req, res) => {
 
   const token = createAccessToken(userForToken);
 
-  res.status(200).send({ token, name: savedUser.name, id: savedUser._id });
+  res.status(200).send({
+    token,
+    name: savedUser.name,
+    id: savedUser._id,
+    email: savedUser.email,
+  });
 });
 
 userRouter.post("/login", async (req, res) => {
@@ -84,7 +89,12 @@ userRouter.post("/login", async (req, res) => {
 
   const token = createAccessToken(userForToken);
 
-  res.status(200).send({ token, name: foundUser.name, id: foundUser._id });
+  res.status(200).send({
+    token,
+    name: foundUser.name,
+    id: foundUser._id,
+    email: foundUser.email,
+  });
 });
 
 userRouter.delete("/", verifyToken, async (_req, res) => {
@@ -93,14 +103,14 @@ userRouter.delete("/", verifyToken, async (_req, res) => {
 });
 
 userRouter.put("/:id", async (req, res) => {
-  const body: IUserPass = req.body;
+  const body: IUserOldPass = req.body;
+  const userObj: any = await User.findById(req.params.id);
 
-  const newDetails: any = {};
-
+  // Update email
   if (body.email) {
     const emailExists = await User.findOne({ email: body.email });
 
-    if (emailExists) {
+    if (emailExists && emailExists.id !== req.params.id) {
       res
         .status(400)
         .json({ errorMsg: `User with email '${body.email}' already exists` });
@@ -108,13 +118,28 @@ userRouter.put("/:id", async (req, res) => {
       return;
     }
 
-    newDetails.email = body.email;
+    userObj.email = body.email;
   }
-  if (body.name) newDetails.name = body.name;
-  if (body.password)
-    newDetails.passwordHash = await bcrypt.hash(body.password, 10);
 
-  const updatedUser = await User.findByIdAndUpdate(req.params.id, newDetails, {
+  // Update name
+  if (body.name) userObj.name = body.name;
+
+  // Update password
+  if (body.password && body.oldPassword) {
+    const correctPassword = await bcrypt.compare(
+      body.oldPassword,
+      userObj.passwordHash
+    );
+
+    if (!correctPassword) {
+      res.status(401).json({ errorMsg: `Current password is incorrect` });
+      return;
+    }
+
+    userObj.passwordHash = await bcrypt.hash(body.password, 10);
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(req.params.id, userObj, {
     new: true,
   });
 

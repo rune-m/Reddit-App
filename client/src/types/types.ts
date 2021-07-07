@@ -31,6 +31,7 @@ export interface IUser {
 export interface IUserToken {
   token: string;
   name: string;
+  email: string;
   id: number;
 }
 
