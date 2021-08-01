@@ -1,5 +1,7 @@
 import { IPost, IUser } from "../../types/types";
 import User from "../models/userModel";
+import Post from "../models/postModel";
+import { getUserIdFromToken } from "../../utils/tokenUtils";
 
 export const assignPostToUser = async (userId: string, post: any) => {
   const user: any = await User.findById(userId);
@@ -17,6 +19,7 @@ export const removePostFromUser = async (userId: string, postId: string) => {
     console.log(user.posts);
     user.posts = user.posts.filter((post: string) => {
       console.log("Post", post, postId, typeof postId, typeof post);
+      // TODO !==
       return post != postId;
     });
     console.log(user.posts);
@@ -24,4 +27,14 @@ export const removePostFromUser = async (userId: string, postId: string) => {
   } else {
     throw `User with id ${userId} doesn't exist`;
   }
+};
+
+export const userOwnsPost = async (postId, token): Promise<boolean> => {
+  const post: any = await Post.findById(postId);
+  console.log("post", post);
+  if (post) {
+    console.log("ASDASD", post.user, getUserIdFromToken(token));
+    if (post.user == getUserIdFromToken(token)) return true;
+  }
+  return false;
 };

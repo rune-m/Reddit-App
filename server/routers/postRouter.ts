@@ -4,6 +4,7 @@ import Post from "../db/models/postModel";
 import {
   assignPostToUser,
   removePostFromUser,
+  userOwnsPost,
 } from "../db/services/userServices";
 import {
   tokenBelongsToUser,
@@ -46,7 +47,18 @@ postRouter.post("/", async (req, res) => {
 });
 
 postRouter.delete("/:id", verifyToken, async (req, res) => {
-  const deletedPost = await Post.findByIdAndDelete(req.params.id);
+  const id = req.params.id;
+
+  // Check if user owns post
+  const ownsPost = await userOwnsPost(id, req.token).then((res) => res);
+  if (!ownsPost) {
+    res.status(401).json({
+      errorMsg: "Posts can only be deleted by the creator of the post",
+    });
+    return;
+  }
+
+  const deletedPost = await Post.findByIdAndDelete(id);
   if (deletedPost) {
     removePostFromUser(getUserIdFromToken(req.token), deletedPost.id);
     res.status(200).json(deletedPost);
@@ -58,13 +70,24 @@ postRouter.delete("/:id", verifyToken, async (req, res) => {
 postRouter.put("/:id", verifyToken, async (req, res) => {
   const body = req.body;
 
+  const id = req.params.id;
+
+  // Check if user owns post
+  const ownsPost = await userOwnsPost(id, req.token).then((res) => res);
+  if (!ownsPost) {
+    res.status(401).json({
+      errorMsg: "Posts can only be edited by the creator of the post",
+    });
+    return;
+  }
+
   const post = {
     title: body.title,
     content: body.content,
     date: new Date().toISOString(),
   };
 
-  const updatedPost = await Post.findByIdAndUpdate(req.params.id, post, {
+  const updatedPost = await Post.findByIdAndUpdate(id, post, {
     new: true,
   });
 
