@@ -7,16 +7,26 @@ import { usePosts } from "../../state/PostContext";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { useUser } from "../../state/UserContext";
 
 export const Post = (post: IPost) => {
   const { upvotePost, downvotePost } = usePosts();
+  const { user } = useUser();
+
+  const userOwnsPost = () => {
+    if (user) {
+      return user.id === post.user;
+    }
+    return false;
+  };
+
   return (
     <div>
       <div className='card mt-3'>
         <div className='card-body'>
           <h3 className='card-title m-0 text-warning'>{post.title}</h3>
           <h6 className='card-subtitle'>
-            by {post.author} | {formatDate(post.date)}
+            by {post.user} | {formatDate(post.date)}
           </h6>
           <p className='card-text' style={{ whiteSpace: "pre-wrap" }}>
             {post.content}
@@ -41,9 +51,13 @@ export const Post = (post: IPost) => {
             </h5>
           </div>
           <div className='card-footer'>
-            <EditPostModal post={post} />
-            &nbsp;
-            <DeletePostModal post={post} />
+            {userOwnsPost() && (
+              <div>
+                <EditPostModal post={post} />
+                &nbsp;
+                <DeletePostModal post={post} />
+              </div>
+            )}
           </div>
         </div>
       </div>

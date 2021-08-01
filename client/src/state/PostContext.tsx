@@ -78,7 +78,7 @@ export const PostContext = ({ children }: ContextProps) => {
     }
   };
 
-  const deletePost = async (id: number) => {
+  const deletePost = async (id: string) => {
     try {
       await postService.remove(id);
     } catch (error) {

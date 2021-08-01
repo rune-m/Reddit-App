@@ -17,19 +17,20 @@ export const NewPostModal = () => {
   const handleAddPost = (e: React.FormEvent): void => {
     e.preventDefault();
 
-    const post: IPostNew = {
-      title: title.value,
-      content: content.value,
-      author: user === null ? "" : user.name,
-      date: new Date().toISOString(),
-      upvotes: 0,
-    };
-
-    addPost(post);
-
-    // Clear fields
-    title.onSubmit();
-    content.onSubmit();
+    if (user) {
+      const post: IPostNew = {
+        title: title.value,
+        content: content.value,
+        author: user === null ? "" : user.name,
+        date: new Date().toISOString(),
+        upvotes: 0,
+        user: user.id,
+      };
+      addPost(post);
+      // Clear fields
+      title.onSubmit();
+      content.onSubmit();
+    }
   };
 
   const modalBody = () => {

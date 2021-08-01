@@ -18,7 +18,7 @@ export const useService = (baseUrlProp: string) => {
     return req.data;
   };
 
-  const get = async (id: number) => {
+  const get = async (id: string) => {
     console.log("service token", getToken());
     const req = await axios.get(`${baseUrl}/${id}`, getToken());
     console.log("Request", req, req.data);
@@ -31,12 +31,12 @@ export const useService = (baseUrlProp: string) => {
     return req.data;
   };
 
-  const remove = async (id: number) => {
+  const remove = async (id: string) => {
     const req = await axios.delete(`${baseUrl}/${id}`, getToken());
     return req.data;
   };
 
-  const update = async (id: number, obj: any, actualUrl?: string) => {
+  const update = async (id: string, obj: any, actualUrl?: string) => {
     const url = actualUrl ? actualUrl : baseUrl;
     const req = await axios.put(`${url}/${id}`, obj, getToken());
     return req.data;

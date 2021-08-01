@@ -2,37 +2,39 @@ import React from "react";
 
 export type IPostNew = Omit<IPost, "id">;
 export interface IPost {
-  id: number;
+  id: string;
   title: string;
   content: string;
-  author: string;
+  author?: string;
   date: string;
   upvotes: number;
+  user: string;
 }
 
 export interface PostContextState {
   posts: IPost[];
   addPost: (post: IPostNew) => void;
-  deletePost: (id: number) => void;
+  deletePost: (id: string) => void;
   updatePost: (post: IPost) => void;
   upvotePost: (post: IPost) => void;
   downvotePost: (post: IPost) => void;
 }
 
-export type IUserNew = Omit<IUser, "id">;
+export type IUserNew = Omit<IUser, "id" | "posts">;
 
 export interface IUser {
-  id: number;
+  id: string;
   name: string;
   email: string;
   password: string;
+  posts: string[];
 }
 
 export interface IUserToken {
   token: string;
   name: string;
   email: string;
-  id: number;
+  id: string;
 }
 
 export interface IUserLogin {
