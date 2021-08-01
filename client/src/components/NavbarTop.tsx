@@ -2,16 +2,10 @@ import * as React from "react";
 import { useEffect } from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import { useUser } from "../state/UserContext";
+import { userIdPath } from "../utils/StringUtils";
 
 export const NavbarTop = () => {
   const { user, logout } = useUser();
-
-  const userIdPath = (): string => {
-    if (user !== null) {
-      return `/${user.id}`;
-    }
-    return "";
-  };
 
   useEffect(() => {
     console.log("User", user);
@@ -44,7 +38,7 @@ export const NavbarTop = () => {
             ) : (
               <>
                 <Nav.Link href='/'>Home</Nav.Link>
-                <Nav.Link href={userIdPath()}>{user.name}</Nav.Link>
+                <Nav.Link href={userIdPath(user)}>{user.name}</Nav.Link>
                 <Nav.Link href='/account'>My Account</Nav.Link>
                 <Nav.Link href='/login' onClick={logout}>
                   Log out
