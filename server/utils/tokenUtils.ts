@@ -35,3 +35,12 @@ export const createAccessToken = (payload: object): string => {
   const expiry: string = "7d";
   return jwt.sign(payload, process.env.SECRET!, { expiresIn: expiry });
 };
+
+export const getUserIdFromToken = (token: string) => {
+  const decodedToken: { id: string; email: string } = jwt_decode(token);
+  try {
+    return decodedToken.id;
+  } catch (err) {
+    return "";
+  }
+};

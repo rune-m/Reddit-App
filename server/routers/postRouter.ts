@@ -1,8 +1,13 @@
 import express, { request } from "express";
 const postRouter = express.Router();
 import Post from "../db/models/postModel";
-import { IPost } from "../types/types";
-import { tokenBelongsToUser, verifyToken } from "../utils/tokenUtils";
+import { assignPostToUserId } from "../db/services/userServices";
+import { IPost, IUser } from "../types/types";
+import {
+  tokenBelongsToUser,
+  verifyToken,
+  getUserIdFromToken,
+} from "../utils/tokenUtils";
 
 postRouter.get("/", verifyToken, async (_req, res) => {
   const posts = await Post.find({});
@@ -10,7 +15,7 @@ postRouter.get("/", verifyToken, async (_req, res) => {
 });
 
 postRouter.get("/:id", verifyToken, async (req, res) => {
-  const post = await Post.findById(req.params.id);
+  const post = await Post.findById(req.params.id).populate("user");
   if (post) {
     res.json(post);
   } else {
@@ -18,8 +23,10 @@ postRouter.get("/:id", verifyToken, async (req, res) => {
   }
 });
 
-postRouter.post("/", verifyToken, async (req, res) => {
+postRouter.post("/", async (req, res) => {
   const body = req.body;
+
+  const userId: string = getUserIdFromToken(req.token);
 
   const post = new Post({
     title: body.title,
@@ -27,7 +34,10 @@ postRouter.post("/", verifyToken, async (req, res) => {
     author: body.author,
     date: new Date().toISOString(),
     upvotes: 0,
+    user: userId,
   });
+
+  assignPostToUserId(userId, post);
 
   const savedPost = await post.save();
   res.json(savedPost);

@@ -15,7 +15,7 @@ userRouter.get("/:id", verifyToken, async (req, res) => {
   res.status(404).json({ errorMsg: "User with id doesn't exist on server" });
 });
 
-userRouter.get("/", async (_req, res) => {
+userRouter.get("/", verifyToken, async (_req, res) => {
   const users = await User.find({});
   res.json(users);
 });

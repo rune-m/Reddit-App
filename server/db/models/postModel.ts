@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 const uniqueValidator = require("mongoose-unique-validator");
+const autopopulate = require("mongoose-autopopulate");
 
 const postSchema = new mongoose.Schema({
   title: String,
@@ -7,10 +8,15 @@ const postSchema = new mongoose.Schema({
   author: String,
   date: String,
   upvotes: Number,
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    autopopulate: false,
+  },
 });
 
 postSchema.plugin(uniqueValidator);
+postSchema.plugin(autopopulate);
 
 postSchema.set("toJSON", {
   transform: (_document, returnedObject) => {

@@ -2,15 +2,17 @@ export interface IPost {
   id?: number;
   title: string;
   content: string;
-  author: string;
+  author?: string;
   date: string;
   upvotes: number;
+  user: IUser;
 }
 
 export interface IUser {
   id?: number;
   name: string;
   email: string;
+  posts: IPost[];
 }
 
 export interface IUserPass extends IUser {
