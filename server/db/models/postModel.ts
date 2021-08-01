@@ -7,6 +7,7 @@ const postSchema = new mongoose.Schema({
   author: String,
   date: String,
   upvotes: Number,
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
 postSchema.plugin(uniqueValidator);

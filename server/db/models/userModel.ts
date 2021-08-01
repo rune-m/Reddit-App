@@ -8,6 +8,12 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   passwordHash: String,
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
 });
 
 userSchema.plugin(uniqueValidator);
