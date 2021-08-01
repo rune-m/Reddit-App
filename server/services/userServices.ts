@@ -1,7 +1,7 @@
-import { IPost, IUser } from "../../types/types";
-import User from "../models/userModel";
-import Post from "../models/postModel";
-import { getUserIdFromToken } from "../../utils/tokenUtils";
+import { IPost, IUser } from "../types/types";
+import User from "../db/models/userModel";
+import Post from "../db/models/postModel";
+import { getUserIdFromToken } from "../utils/tokenUtils";
 
 export const assignPostToUser = async (userId: string, post: any) => {
   const user: any = await User.findById(userId);

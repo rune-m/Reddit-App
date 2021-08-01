@@ -146,4 +146,9 @@ userRouter.put("/:id", async (req, res) => {
   res.json(updatedUser).send();
 });
 
+userRouter.get("/posts/:id", async (req, res) => {
+  const user: any = await User.findById(req.params.id).populate("posts");
+  res.json(user.posts);
+});
+
 module.exports = userRouter;

@@ -5,7 +5,7 @@ import {
   assignPostToUser,
   removePostFromUser,
   userOwnsPost,
-} from "../db/services/userServices";
+} from "../services/userServices";
 import {
   tokenBelongsToUser,
   verifyToken,
