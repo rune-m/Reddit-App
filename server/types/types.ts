@@ -1,5 +1,5 @@
 export interface IPost {
-  id?: number;
+  id?: string;
   title: string;
   content: string;
   author?: string;
@@ -9,7 +9,7 @@ export interface IPost {
 }
 
 export interface IUser {
-  id?: number;
+  id?: string;
   name: string;
   email: string;
   posts: IPost[];

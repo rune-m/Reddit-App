@@ -1,8 +1,10 @@
 import express, { request } from "express";
 const postRouter = express.Router();
 import Post from "../db/models/postModel";
-import { assignPostToUserId } from "../db/services/userServices";
-import { IPost, IUser } from "../types/types";
+import {
+  assignPostToUser,
+  removePostFromUser,
+} from "../db/services/userServices";
 import {
   tokenBelongsToUser,
   verifyToken,
@@ -37,7 +39,7 @@ postRouter.post("/", async (req, res) => {
     user: userId,
   });
 
-  assignPostToUserId(userId, post);
+  assignPostToUser(userId, post);
 
   const savedPost = await post.save();
   res.json(savedPost);
@@ -46,6 +48,7 @@ postRouter.post("/", async (req, res) => {
 postRouter.delete("/:id", verifyToken, async (req, res) => {
   const deletedPost = await Post.findByIdAndDelete(req.params.id);
   if (deletedPost) {
+    removePostFromUser(getUserIdFromToken(req.token), deletedPost.id);
     res.status(200).json(deletedPost);
   } else {
     res.status(404).json({ errorMsg: "Post is removed from server" });
