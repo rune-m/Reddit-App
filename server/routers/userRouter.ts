@@ -102,7 +102,7 @@ userRouter.delete("/", verifyToken, async (_req, res) => {
   res.json();
 });
 
-userRouter.put("/:id", async (req, res) => {
+userRouter.put("/:id", verifyToken, async (req, res) => {
   const body: IUserOldPass = req.body;
   const userObj: any = await User.findById(req.params.id);
 
@@ -146,7 +146,7 @@ userRouter.put("/:id", async (req, res) => {
   res.json(updatedUser).send();
 });
 
-userRouter.get("/posts/:id", async (req, res) => {
+userRouter.get("/posts/:id", verifyToken, async (req, res) => {
   const user: any = await User.findById(req.params.id).populate("posts");
   res.json(user.posts);
 });

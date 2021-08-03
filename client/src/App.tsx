@@ -28,15 +28,12 @@ export const App = () => {
     fetchLocalStorageForUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // const match = useRouteMatch("/user/:id");
-  // const userUrl = match ? String(match.params.id) : "";
   let match: any = useRouteMatch("/user/:id");
 
   return (
     <div className='container'>
       <NavbarTop />
-      {/* <Router> */}
+
       <Switch>
         <Route path='/user/:id'>
           <UserProfile userId={match?.params.id} />
@@ -54,7 +51,6 @@ export const App = () => {
           <MyAccount />
         </Route>
       </Switch>
-      {/* </Router> */}
       <Notification />
     </div>
   );
