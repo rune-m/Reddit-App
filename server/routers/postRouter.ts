@@ -42,7 +42,7 @@ postRouter.post("/", async (req, res) => {
 
   assignPostToUser(userId, post);
 
-  const savedPost = await post.save();
+  const savedPost = await (await post.save()).populate("user");
   res.json(savedPost);
 });
 
@@ -89,7 +89,7 @@ postRouter.put("/:id", verifyToken, async (req, res) => {
 
   const updatedPost = await Post.findByIdAndUpdate(id, post, {
     new: true,
-  });
+  }).populate("user");
 
   console.log(updatedPost);
 
