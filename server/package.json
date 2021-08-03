@@ -8,8 +8,9 @@
     "tsc": "tsc",
     "dev": "ts-node-dev --files index.ts",
     "lint": "eslint --ext .ts .",
-    "start": "node index.ts",
+    "start": "ts-node --files index.ts",
     "build:ui": "rm -rf build && cd ../client && npm run build --prod && cp -r build ../server",
+    "deploy:prod": "npm run build:ui && rm -rf ../../prod && cp -a . ../../prod && cp ../.gitignore ../../prod && cd ../../prod && rm -rf .git && git init && heroku git:remote -a postapp-react && git branch --set-upstream-to=heroku/<branch> master && git pull && git add -A && git commit -m prodbuild && npm run deploy",
     "deploy": "git push heroku HEAD:master",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy"
   },
