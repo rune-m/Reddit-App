@@ -13,7 +13,7 @@ import {
 } from "../utils/tokenUtils";
 
 postRouter.get("/", verifyToken, async (_req, res) => {
-  const posts = await Post.find({});
+  const posts = await Post.find({}).populate("user");
   res.json(posts);
 });
 
@@ -107,7 +107,7 @@ postRouter.put("/upvote/:id", verifyToken, async (req, res) => {
     {
       new: true,
     }
-  );
+  ).populate("user");
 
   if (updatedPost) {
     res.json(updatedPost);
@@ -123,7 +123,7 @@ postRouter.put("/downvote/:id", verifyToken, async (req, res) => {
     {
       new: true,
     }
-  );
+  ).populate("user");
 
   if (updatedPost) {
     res.json(updatedPost);

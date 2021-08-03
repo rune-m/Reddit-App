@@ -8,7 +8,7 @@ export const NavbarTop = () => {
   const { user, logout } = useUser();
 
   useEffect(() => {
-    console.log("User", user);
+    // console.log("User", user);
   }, [user]);
 
   return (

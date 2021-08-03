@@ -8,7 +8,7 @@ export const useService = (baseUrlProp: string) => {
   const { user } = useUser();
 
   const getToken = () => {
-    console.log("Token", user);
+    // console.log("Token", user);
     return user ? { headers: { Authorization: `bearer ${user.token}` } } : {};
   };
 
@@ -19,9 +19,9 @@ export const useService = (baseUrlProp: string) => {
   };
 
   const get = async (id: string) => {
-    console.log("service token", getToken());
+    // console.log("service token", getToken());
     const req = await axios.get(`${baseUrl}/${id}`, getToken());
-    console.log("Request", req, req.data);
+    // console.log("Request", req, req.data);
     return req.data;
   };
 

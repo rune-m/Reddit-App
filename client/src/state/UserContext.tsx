@@ -36,7 +36,7 @@ export const UserContext = ({ children }: ContextProps) => {
   const { newNotification } = useNotification();
 
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
     if (user === null) fetchLocalStorageForUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -79,7 +79,6 @@ export const UserContext = ({ children }: ContextProps) => {
     try {
       let updatedUser;
       if (user && user.id) {
-        console.log(typeof user.id);
         updatedUser = await userService.update(user.id, userToUpdate);
         updateUser({
           ...user,
@@ -87,7 +86,6 @@ export const UserContext = ({ children }: ContextProps) => {
           email: updatedUser.email,
         });
       }
-      console.log("Updated user", updatedUser);
       // Update token?
     } catch (error) {
       console.log("Error updating user details", error.response.data);
@@ -101,22 +99,14 @@ export const UserContext = ({ children }: ContextProps) => {
   };
 
   const fetchLocalStorageForUser = async () => {
-    console.log("UserTOKEN", user);
-    console.log("fetching localStorage...");
+    // console.log("UserTOKEN", user);
+    // console.log("fetching localStorage...");
     const activeUserJSON = window.localStorage.getItem("activeUser");
-    console.log("Active user", activeUserJSON);
+    // console.log("Active user", activeUserJSON);
     if (activeUserJSON) {
       const user = JSON.parse(activeUserJSON);
 
       setUser(user);
-
-      // const fetchedUser = await userService.get(user.id);
-      // console.log(fetchedUser);
-      // updateUser({
-      //   ...user,
-      //   name: fetchedUser.name,
-      //   email: fetchedUser.email,
-      // });
     }
   };
 

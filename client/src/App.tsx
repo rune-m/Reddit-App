@@ -1,33 +1,19 @@
 import { LoginForm } from "./components/User/LoginForm";
 import { RegisterForm } from "./components/User/RegisterForm";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-  useRouteMatch,
-  useParams,
-} from "react-router-dom";
+import { Switch, Route, Redirect, useRouteMatch } from "react-router-dom";
 import { NavbarTop } from "./components/NavbarTop";
 import { PostsHome } from "./components/Post/PostsHome";
 import { useUser } from "./state/UserContext";
 import { Notification } from "./components/Notification";
 import { MyAccount } from "./components/User/MyAccount";
 import { UserProfile } from "./components/User/UserProfile";
-import { useEffect } from "react";
 // import { userIdPath } from "./utils/StringUtils";
 
 export const App = () => {
-  const { user, fetchLocalStorageForUser } = useUser();
+  const { user } = useUser();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   // useEffect(() => fetchLocalStorageForUser(), []);
-
-  useEffect(() => {
-    console.log("App.tsx rerender");
-    fetchLocalStorageForUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   let match: any = useRouteMatch("/user/:id");
 
   return (

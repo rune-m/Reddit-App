@@ -1,5 +1,4 @@
 import React from "react";
-import { IPost } from "../../types/types";
 import { DeletePostModal } from "../Modal/DeletePostModal";
 import { EditPostModal } from "../Modal/EditPostModal";
 import { formatDate } from "../../utils/DateFormat";
@@ -9,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { useUser } from "../../state/UserContext";
 
-export const Post = (post: IPost) => {
+export const Post = (post: any) => {
   const { upvotePost, downvotePost } = usePosts();
   const { user } = useUser();
 
@@ -28,10 +27,10 @@ export const Post = (post: IPost) => {
           <h6 className='card-subtitle'>
             by{" "}
             <a
-              href={`/user/${post.user}`}
-              style={{ color: "white", textDecoration: "none" }}
+              href={`/user/${post.user.id}`}
+              style={{ color: "#e6e6e6", textDecoration: "none" }}
             >
-              {post.user}
+              {post.user.name}
             </a>{" "}
             | {formatDate(post.date)}
           </h6>
