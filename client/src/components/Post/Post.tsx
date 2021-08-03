@@ -28,7 +28,7 @@ export const Post = (post: any) => {
             by{" "}
             <a
               href={`/user/${post.user.id}`}
-              style={{ color: "#e6e6e6", textDecoration: "none" }}
+              style={{ color: "#E9E9D1", textDecoration: "none" }}
             >
               {post.user.name}
             </a>{" "}
