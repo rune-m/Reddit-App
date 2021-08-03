@@ -36,7 +36,8 @@ export const UserContext = ({ children }: ContextProps) => {
   const { newNotification } = useNotification();
 
   useEffect(() => {
-    fetchLocalStorageForUser();
+    console.log(user);
+    if (user === null) fetchLocalStorageForUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -100,6 +101,7 @@ export const UserContext = ({ children }: ContextProps) => {
   };
 
   const fetchLocalStorageForUser = async () => {
+    console.log("UserTOKEN", user);
     console.log("fetching localStorage...");
     const activeUserJSON = window.localStorage.getItem("activeUser");
     console.log("Active user", activeUserJSON);

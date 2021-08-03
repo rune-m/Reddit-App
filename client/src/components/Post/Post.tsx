@@ -26,7 +26,14 @@ export const Post = (post: IPost) => {
         <div className='card-body'>
           <h3 className='card-title m-0 text-warning'>{post.title}</h3>
           <h6 className='card-subtitle'>
-            by {post.user} | {formatDate(post.date)}
+            by{" "}
+            <a
+              href={`/user/${post.user}`}
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              {post.user}
+            </a>{" "}
+            | {formatDate(post.date)}
           </h6>
           <p className='card-text' style={{ whiteSpace: "pre-wrap" }}>
             {post.content}

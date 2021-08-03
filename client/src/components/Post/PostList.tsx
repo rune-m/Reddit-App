@@ -13,7 +13,6 @@ export const PostList = ({ posts, title, createNewButton = true }: Props) => {
   return (
     <div className='d-flex justify-content-center pb-4'>
       <ul className='post-list col-12 col-sm-12 col-md-10 col-lg-7 p-0'>
-        (
         <div className='row ms-auto me-auto'>
           <h2 className='col-8 p-0 mt-4 mb-1'>{title}</h2>
           {createNewButton && (

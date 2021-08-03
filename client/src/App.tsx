@@ -5,6 +5,8 @@ import {
   Switch,
   Route,
   Redirect,
+  useRouteMatch,
+  useParams,
 } from "react-router-dom";
 import { NavbarTop } from "./components/NavbarTop";
 import { PostsHome } from "./components/Post/PostsHome";
@@ -12,47 +14,47 @@ import { useUser } from "./state/UserContext";
 import { Notification } from "./components/Notification";
 import { MyAccount } from "./components/User/MyAccount";
 import { UserProfile } from "./components/User/UserProfile";
+import { useEffect } from "react";
 // import { userIdPath } from "./utils/StringUtils";
 
 export const App = () => {
-  const { user } = useUser();
+  const { user, fetchLocalStorageForUser } = useUser();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   // useEffect(() => fetchLocalStorageForUser(), []);
 
-  const userIdPath = (): string => {
-    if (user !== null) {
-      return `/${user.id}`;
-    }
-    return "";
-  };
+  useEffect(() => {
+    console.log("App.tsx rerender");
+    fetchLocalStorageForUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // const match = useRouteMatch("/user/:id");
+  // const userUrl = match ? String(match.params.id) : "";
+  let match: any = useRouteMatch("/user/:id");
 
   return (
     <div className='container'>
       <NavbarTop />
-      <Router>
-        <Switch>
-          <Route exact path='/'>
-            {user === null ? <Redirect to='/login' /> : <PostsHome />}
-          </Route>
-          <Route path='/register'>
-            {user === null ? <RegisterForm /> : <Redirect to='/' />}
-          </Route>
-          <Route path='/login'>
-            {user === null ? <LoginForm /> : <Redirect to='/' />}
-          </Route>
-          <Route path='/account'>
-            {/* {console.log("account", user)} */}
-            {/* {console.log("null?", user !== null)} */}
-            {/* {user === null ? <Redirect to='/login' /> : <MyAccount />} */}
-            <MyAccount />
-          </Route>
-          <Route path={userIdPath()}>
-            <UserProfile />
-            {/* {user === null ? <Redirect to='/login' /> : <UserProfile />} */}
-          </Route>
-        </Switch>
-      </Router>
+      {/* <Router> */}
+      <Switch>
+        <Route path='/user/:id'>
+          <UserProfile userId={match?.params.id} />
+        </Route>
+        <Route exact path='/'>
+          {user === null ? <Redirect to='/login' /> : <PostsHome />}
+        </Route>
+        <Route path='/register'>
+          {user === null ? <RegisterForm /> : <Redirect to='/' />}
+        </Route>
+        <Route path='/login'>
+          {user === null ? <LoginForm /> : <Redirect to='/' />}
+        </Route>
+        <Route path='/account'>
+          <MyAccount />
+        </Route>
+      </Switch>
+      {/* </Router> */}
       <Notification />
     </div>
   );
